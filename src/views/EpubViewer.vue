@@ -52,19 +52,49 @@ export default {
 			// blob: URLs, so the <base> is vestigial here — strip it in a spine
 			// content hook (runs on the section DOM before it's serialised into the
 			// iframe), so no <base> is ever written and the violation never fires.
-			this.book.spine.hooks.content.register((doc) => {
+			this.book.spine.hooks.content.register(async (doc, section) => {
+				// <base href>: blocked by base-uri 'none' (vestigial — resources are
+				// rewritten to absolute blob: URLs).
 				try {
-					// <base href>: blocked by base-uri 'none' (vestigial — resources are
-					// rewritten to absolute blob: URLs).
 					doc.querySelectorAll('base').forEach((b) => b.remove())
-					// The book's own CSS is loaded as <link href="blob:…">, which NC's
-					// CSP (style-src 'self' 'unsafe-inline') blocks anyway, so it isn't
-					// applied — strip the links so no violation is logged. Inline <style>
-					// blocks in the XHTML still apply. Full book styling (these external
-					// CSS files) would need inlining the CSS or a blob: CSP allowance —
-					// a deliberate choice to make during the layout pass.
-					doc.querySelectorAll('link[rel="stylesheet"]').forEach((l) => l.remove())
 				} catch (e) { /* noop */ }
+
+				// The book's CSS is bundled INSIDE the .epub and referenced relatively;
+				// epub.js would serve it as a blob: <link>, which NC's CSP (style-src
+				// 'self' 'unsafe-inline', no blob:) blocks. Inline the stylesheet text
+				// straight from the archive into a <style> element instead — allowed by
+				// 'unsafe-inline', so the book keeps its real styling, no CSP change.
+				// Falls back to removing the link if anything can't be resolved (no
+				// regression, no console error either way).
+				const links = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
+				for (const link of links) {
+					const href = link.getAttribute('href') || ''
+					try {
+						let css = null
+						if (/^(blob:|https?:)/i.test(href)) {
+							const r = await fetch(href)
+							if (r.ok) { css = await r.text() }
+						} else if (href && this.book.archive) {
+							// resolve the href relative to the section, then read from the zip
+							const baseFile = (section.canonical || section.url || section.href || '')
+								.replace(/^https?:\/\/[^/]+/i, '')
+								.replace(/^\/+/, '')
+							const path = decodeURIComponent(
+								new URL(href, 'http://epub.local/' + baseFile).pathname.replace(/^\/+/, ''),
+							)
+							css = await this.book.archive.getText(path)
+						}
+						if (css) {
+							const style = doc.createElement('style')
+							style.textContent = css
+							link.parentNode.replaceChild(style, link)
+						} else {
+							link.remove()
+						}
+					} catch (e) {
+						try { link.remove() } catch (e2) { /* noop */ }
+					}
+				}
 			})
 
 			this.rendition = this.book.renderTo(this.$refs.area, {
