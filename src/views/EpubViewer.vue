@@ -45,6 +45,19 @@ export default {
 			const buf = await res.arrayBuffer()
 
 			this.book = ePub(buf)
+
+			// epub.js injects a <base href> into each section so relative URLs
+			// resolve. NC's CSP is base-uri 'none', which blocks that tag and logs a
+			// violation. epub.js already rewrites the section's resources to absolute
+			// blob: URLs, so the <base> is vestigial here — strip it in a spine
+			// content hook (runs on the section DOM before it's serialised into the
+			// iframe), so no <base> is ever written and the violation never fires.
+			this.book.spine.hooks.content.register((doc) => {
+				try {
+					doc.querySelectorAll('base').forEach((b) => b.remove())
+				} catch (e) { /* noop */ }
+			})
+
 			this.rendition = this.book.renderTo(this.$refs.area, {
 				width: '100%',
 				height: '100%',
