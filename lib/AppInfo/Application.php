@@ -44,6 +44,16 @@ class Application extends App implements IBootstrap {
 		try {
 			$detector = $context->getServerContainer()->get(\OCP\Files\IMimeTypeDetector::class);
 			if (method_exists($detector, 'registerType')) {
+				// CRUCIAL: force the default mappings to load *before* we add ours.
+				// registerType() populates the detector's internal map, and the
+				// detector's loadMappings() bails out early when that map is already
+				// non-empty — so if we register first, the defaults never load and
+				// the detector knows ONLY .ipynb, making every other file detect as
+				// application/octet-stream (no icons, no previews). getAllMappings()
+				// triggers the default load; our type is then layered on top.
+				if (method_exists($detector, 'getAllMappings')) {
+					$detector->getAllMappings();
+				}
 				$detector->registerType('ipynb', 'application/x-ipynb+json');
 				// .epub / .cbr / .cbz are already in NC's default mapping.
 			}
