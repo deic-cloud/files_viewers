@@ -1,53 +1,44 @@
 <?php
-// Generate a document-style .ipynb file icon: a white page with a folded
-// corner and the Jupyter logomark on it, on a square transparent canvas.
-// Rendered at 2x then downscaled for anti-aliasing.
+// .ipynb file icon in the current Nextcloud filetype style: a square tile with
+// slightly rounded corners (no folded corner), and the Jupyter logomark large
+// and clearly visible in the centre. Rendered at 2x then downscaled for AA.
 
-$logoPath = $argv[1] ?? 'jupyter-logo-src.png';
+$logoPath = $argv[1] ?? 'jupyter-logomark.png';
 $outPath  = $argv[2] ?? 'jupyter.png';
 
-$S = 512;                 // 2x render size (final 256)
+$S = 512; // 2x render (final 256)
 $im = imagecreatetruecolor($S, $S);
 imagesavealpha($im, true);
 imagealphablending($im, false);
 imagefill($im, 0, 0, imagecolorallocatealpha($im, 0, 0, 0, 127)); // transparent
 imagealphablending($im, true);
 
-// colours
-$white  = imagecolorallocate($im, 255, 255, 255);
-$border = imagecolorallocate($im, 196, 200, 205);
-$fold   = imagecolorallocate($im, 228, 231, 235);
-$line   = imagecolorallocate($im, 222, 225, 229); // suggested text lines
+$fill   = imagecolorallocate($im, 243, 244, 246); // #f3f4f6 light tile
+$border = imagecolorallocate($im, 207, 211, 216); // #cfd3d8
 
-// page geometry (2x coords)
-$L = 120; $R = 392; $T = 70; $B = 460; $F = 74; // left/right/top/bottom + fold size
+function fillRoundedRect($im, $x1, $y1, $x2, $y2, $r, $color) {
+	imagefilledrectangle($im, $x1 + $r, $y1, $x2 - $r, $y2, $color);
+	imagefilledrectangle($im, $x1, $y1 + $r, $x2, $y2 - $r, $color);
+	imagefilledellipse($im, $x1 + $r, $y1 + $r, $r * 2, $r * 2, $color);
+	imagefilledellipse($im, $x2 - $r, $y1 + $r, $r * 2, $r * 2, $color);
+	imagefilledellipse($im, $x1 + $r, $y2 - $r, $r * 2, $r * 2, $color);
+	imagefilledellipse($im, $x2 - $r, $y2 - $r, $r * 2, $r * 2, $color);
+}
 
-// page body (top-right corner cut for the fold)
-$body = [$L,$T, $R-$F,$T, $R,$T+$F, $R,$B, $L,$B];
-imagefilledpolygon($im, $body, $white);
-imagepolygon($im, $body, $border);
+// tile with a thin border: draw border-coloured rounded rect, then inset fill
+$m = 10; $r = 60; $bw = 5;
+fillRoundedRect($im, $m, $m, $S - $m, $S - $m, $r, $border);
+fillRoundedRect($im, $m + $bw, $m + $bw, $S - $m - $bw, $S - $m - $bw, $r - $bw, $fill);
 
-// the dog-ear fold triangle
-$tri = [$R-$F,$T, $R,$T+$F, $R-$F,$T+$F];
-imagefilledpolygon($im, $tri, $fold);
-imagepolygon($im, $tri, $border);
-
-// a couple of faint "notebook" lines near the top of the page
-imagesetthickness($im, 3);
-imageline($im, $L+34, $T+44, $R-$F-20, $T+44, $line);
-imageline($im, $L+34, $T+74, $R-110,   $T+74, $line);
-imagesetthickness($im, 1);
-
-// composite the Jupyter logomark, scaled to fit, centred in the lower page
+// Jupyter logomark, large and centred
 $logo = imagecreatefrompng($logoPath);
 $lw = imagesx($logo); $lh = imagesy($logo);
-$targetW = 188;
-$targetH = (int)round($lh * ($targetW / $lw));
-$lx = (int)($L + (($R - $L) - $targetW) / 2);
-$ly = (int)($T + (($B - $T) - $targetH) / 2 + 34); // nudge down, below the lines
+$targetH = (int)round($S * 0.62);              // clearly visible
+$targetW = (int)round($lw * ($targetH / $lh));
+$lx = (int)(($S - $targetW) / 2);
+$ly = (int)(($S - $targetH) / 2);
 imagecopyresampled($im, $logo, $lx, $ly, 0, 0, $targetW, $targetH, $lw, $lh);
 
-// downscale to 256 for anti-aliasing
 $final = imagescale($im, 256, 256, IMG_BICUBIC);
 imagesavealpha($final, true);
 imagepng($final, $outPath);
