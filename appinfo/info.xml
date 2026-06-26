@@ -5,7 +5,7 @@
 	<name>File viewers</name>
 	<summary>In-browser viewers for notebooks, e-books and comics</summary>
 	<description>Registers Nextcloud Viewer handlers to display Jupyter notebooks (.ipynb), e-books (.epub) and comic archives (.cbr/.cbz) directly in the browser — including on public shares. Rendering is fully client-side and self-contained (no external services). Pairs with the Importer app so shared notebooks can be viewed and imported, then run as a pod.</description>
-	<version>0.4.1</version>
+	<version>0.4.2</version>
 	<licence>agpl</licence>
 	<author mail="fror@dtu.dk">Frederik Orellana, DTU</author>
 	<namespace>FilesViewers</namespace>

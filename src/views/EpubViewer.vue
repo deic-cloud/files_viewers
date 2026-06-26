@@ -54,7 +54,16 @@ export default {
 			// iframe), so no <base> is ever written and the violation never fires.
 			this.book.spine.hooks.content.register((doc) => {
 				try {
+					// <base href>: blocked by base-uri 'none' (vestigial — resources are
+					// rewritten to absolute blob: URLs).
 					doc.querySelectorAll('base').forEach((b) => b.remove())
+					// The book's own CSS is loaded as <link href="blob:…">, which NC's
+					// CSP (style-src 'self' 'unsafe-inline') blocks anyway, so it isn't
+					// applied — strip the links so no violation is logged. Inline <style>
+					// blocks in the XHTML still apply. Full book styling (these external
+					// CSS files) would need inlining the CSS or a blob: CSP allowance —
+					// a deliberate choice to make during the layout pass.
+					doc.querySelectorAll('link[rel="stylesheet"]').forEach((l) => l.remove())
 				} catch (e) { /* noop */ }
 			})
 
