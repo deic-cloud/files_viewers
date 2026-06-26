@@ -81,7 +81,25 @@ export default {
 			}
 			const buf = await res.arrayBuffer()
 
-			this.book = ePub(buf)
+			// Load everything through the in-memory archive. The book is fully
+			// self-contained, so it should never touch the network — but epub.js has
+			// a path-resolution quirk that can re-resolve the package path to a
+			// doubled directory (…/OEBPS/OEBPS/content.opf) and fire a spurious HTTP
+			// request; NC answers with a 404 HTML page, which epub.js then tries to
+			// parse as XML ("not well-formed"). Routing requests through the archive
+			// makes a mis-resolved path miss in memory instead of hitting the network
+			// (and for an archived book the network path never succeeded anyway — the
+			// files live in the zip, not on the server). book.load already reads the
+			// archive directly when archived; this only catches the stray fallbacks.
+			let bookRef = null
+			const archiveOnlyRequest = (url, type) => {
+				if (bookRef && bookRef.archive) {
+					return bookRef.archive.request(url, type)
+				}
+				return Promise.reject(new Error('files_viewers: epub network request blocked'))
+			}
+			this.book = ePub(buf, { requestMethod: archiveOnlyRequest })
+			bookRef = this.book
 
 			// epub.js injects a <base href> into each section so relative URLs
 			// resolve. NC's CSP is base-uri 'none', which blocks that tag and logs a
