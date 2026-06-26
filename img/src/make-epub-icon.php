@@ -50,8 +50,8 @@ $m = 10; $r = 60; $bw2 = 4;
 fillRoundedRect($im, $m, $m, $S - $m, $S - $m, $r, $border);
 fillRoundedRect($im, $m + $bw2, $m + $bw2, $S - $m - $bw2, $S - $m - $bw2, $r - $bw2, $white);
 
-// place the book, scaled to ~70% of the tile height, centred
-$targetH = (int) round($S * 0.70);
+// place the book, scaled to fill most of the tile height, centred
+$targetH = (int) round($S * 0.86);
 $targetW = (int) round($bw * ($targetH / $bh));
 $dx = (int) round(($S - $targetW) / 2);
 $dy = (int) round(($S - $targetH) / 2);
