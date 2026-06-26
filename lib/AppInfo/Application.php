@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\FilesViewers\AppInfo;
 
 use OCA\FilesViewers\Listener\LoadViewerListener;
+use OCA\FilesViewers\Preview\EpubPreviewProvider;
 use OCA\FilesViewers\Preview\IpynbPreviewProvider;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
@@ -32,6 +33,7 @@ class Application extends App implements IBootstrap {
 		// bundled Jupyter logomark. App-registered providers are NOT gated by the
 		// enabledPreviewProviders whitelist, so this is fully out-of-the-box.
 		$context->registerPreviewProvider(IpynbPreviewProvider::class, '/application\/x-ipynb\+json/');
+		$context->registerPreviewProvider(EpubPreviewProvider::class, '/application\/epub\+zip/');
 	}
 
 	public function boot(IBootContext $context): void {

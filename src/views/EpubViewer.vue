@@ -2,16 +2,33 @@
 	<div class="files-viewers-epub">
 		<div v-if="error" class="files-viewers-msg">{{ error }}</div>
 		<div ref="area" class="files-viewers-epub-area"></div>
-		<div v-if="!error" class="files-viewers-epub-nav">
-			<button class="files-viewers-epub-btn"
-				:disabled="!ready"
-				title="Previous page"
-				@click="prev">‹</button>
-			<span class="files-viewers-epub-loc">{{ locLabel }}</span>
-			<button class="files-viewers-epub-btn"
-				:disabled="!ready"
-				title="Next page"
-				@click="next">›</button>
+
+		<!-- Table of contents -->
+		<div v-if="tocOpen" class="files-viewers-epub-tocbg" @click.self="tocOpen = false">
+			<nav class="files-viewers-epub-toc">
+				<ul>
+					<li v-for="(item, i) in toc" :key="i">
+						<button class="files-viewers-epub-toc-item" @click="goTo(item.href)">{{ label(item) }}</button>
+						<ul v-if="item.subitems && item.subitems.length">
+							<li v-for="(sub, j) in item.subitems" :key="j">
+								<button class="files-viewers-epub-toc-item is-sub" @click="goTo(sub.href)">{{ label(sub) }}</button>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+		<!-- Reader controls -->
+		<div v-if="!error" class="files-viewers-epub-bar">
+			<button v-if="toc.length"
+				class="files-viewers-epub-ico"
+				:class="{ active: tocOpen }"
+				title="Table of contents"
+				@click="tocOpen = !tocOpen">☰</button>
+			<button class="files-viewers-epub-ico" :disabled="!ready" title="Previous page" @click="prev">‹</button>
+			<button class="files-viewers-epub-loc" :title="locTitle" @click="togglePageMode">{{ locLabel || '…' }}</button>
+			<button class="files-viewers-epub-ico" :disabled="!ready" title="Next page" @click="next">›</button>
 		</div>
 	</div>
 </template>
@@ -60,9 +77,19 @@ export default {
 	name: 'EpubViewer',
 
 	data() {
-		// book/rendition are deliberately NOT reactive — they are large objects
-		// and Vue 2 would try to deep-observe them.
-		return { error: '', ready: false, locLabel: '' }
+		// book/rendition/lastLocation are deliberately NOT reactive — they are large
+		// objects and Vue 2 would try to deep-observe them.
+		return {
+			error: '',
+			ready: false,
+			done: false,
+			locLabel: '',
+			locTitle: '',
+			toc: [],
+			tocOpen: false,
+			pageMode: 'chapter', // 'chapter' | 'book'
+			locationsReady: false,
+		}
 	},
 
 	computed: {
@@ -159,10 +186,18 @@ export default {
 				allowScriptedContent: false,
 				// NC's CSP is default-src 'none' with no frame-src, which blocks the
 				// default "srcdoc" iframe. Writing into an about:blank iframe instead
-				// renders without needing a frame-src allowance (CSP-clean). The book's
-				// own CSS/fonts (loaded as blob:) may still be stripped by style-src;
-				// text + images (blob: is allowed by img-src) render.
+				// renders without needing a frame-src allowance (CSP-clean).
 				method: 'write',
+			})
+
+			// Keep images — notably full-page covers — within a single page instead
+			// of overflowing onto the next. Injected as the default theme (<style>,
+			// allowed by style-src 'unsafe-inline').
+			this.rendition.themes.default({
+				'img, image, svg': {
+					'max-width': '100% !important',
+					'max-height': '100% !important',
+				},
 			})
 
 			this.rendition.on('relocated', (location) => {
@@ -175,24 +210,39 @@ export default {
 					this.prev()
 				} else if (e.key === 'ArrowRight') {
 					this.next()
+				} else if (e.key === 'Escape' && this.tocOpen) {
+					this.tocOpen = false
 				}
 			}
 			document.addEventListener('keyup', this.keyHandler)
 
+			// Table of contents for quick navigation.
+			this.book.loaded.navigation
+				.then((nav) => { this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : [] })
+				.catch(() => {})
+
 			await this.rendition.display()
 			this.ready = true
+			this.doneOnce()
 
-			// Generate locations in the background so we can show reading progress.
-			// Non-blocking and best-effort — a failure here must not break reading.
-			this.book.ready
-				.then(() => this.book.locations.generate(1600))
-				.then(() => this.updateLocation(this.rendition.currentLocation()))
-				.catch(() => {})
+			// Reading-progress locations are expensive (every section is parsed),
+			// which would otherwise block the first page from painting and leave a
+			// blank flash. Defer it so the book shows immediately.
+			this.locTimer = window.setTimeout(() => {
+				this.book.ready
+					.then(() => this.book.locations.generate(1024))
+					.then(() => {
+						this.locationsReady = true
+						if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+					})
+					.catch(() => {})
+			}, 1500)
 		} catch (e) {
 			this.error = 'Could not open e-book: ' + (e && e.message ? e.message : e)
 		} finally {
-			// tell the Viewer the content is ready (Mime mixin)
-			this.doneLoading()
+			// Safety net — idempotent; the success path already dismissed the spinner
+			// once the first page was displayed.
+			this.doneOnce()
 		}
 	},
 
@@ -200,35 +250,68 @@ export default {
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
+		if (this.locTimer) {
+			clearTimeout(this.locTimer)
+		}
 		try { if (this.rendition) { this.rendition.destroy() } } catch (e) { /* noop */ }
 		try { if (this.book) { this.book.destroy() } } catch (e) { /* noop */ }
 	},
 
 	methods: {
+		label(item) {
+			return (item && item.label ? String(item.label).trim() : '') || '—'
+		},
 		prev() {
-			if (this.rendition) {
-				this.rendition.prev()
-			}
+			if (this.rendition) { this.rendition.prev() }
 		},
 		next() {
-			if (this.rendition) {
-				this.rendition.next()
+			if (this.rendition) { this.rendition.next() }
+		},
+		goTo(href) {
+			if (this.rendition && href) { this.rendition.display(href) }
+			this.tocOpen = false
+		},
+		togglePageMode() {
+			this.pageMode = this.pageMode === 'book' ? 'chapter' : 'book'
+			if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+		},
+		doneOnce() {
+			if (!this.done) {
+				this.done = true
+				this.doneLoading()
 			}
 		},
 		updateLocation(location) {
+			this.lastLocation = location
 			const start = location && location.start ? location.start : null
 			if (!start) {
 				return
 			}
-			try {
-				if (this.book.locations && this.book.locations.length()) {
+			const parts = []
+			// Overall percentage through the book (once locations are generated).
+			if (this.locationsReady) {
+				try {
 					const pct = Math.round(this.book.locations.percentageFromCfi(start.cfi) * 100)
-					this.locLabel = pct + '%'
-					return
-				}
-			} catch (e) { /* locations not ready yet */ }
-			// fall back to the chapter/page label epub.js provides
-			this.locLabel = start.displayed ? (start.displayed.page + ' / ' + start.displayed.total) : ''
+					if (!isNaN(pct)) { parts.push(pct + '%') }
+				} catch (e) { /* noop */ }
+			}
+			// page i/n — book "pages" (locations) when toggled, else chapter pages.
+			let i = null
+			let n = null
+			if (this.pageMode === 'book' && this.locationsReady) {
+				try {
+					n = this.book.locations.length()
+					i = (this.book.locations.locationFromCfi(start.cfi) || 0) + 1
+				} catch (e) { i = null; n = null }
+			}
+			if (i === null || n === null || n === undefined) {
+				if (start.displayed) { i = start.displayed.page; n = start.displayed.total }
+			}
+			if (i !== null && i !== undefined && n) { parts.push(i + '/' + n) }
+			this.locLabel = parts.join(' · ')
+			this.locTitle = this.pageMode === 'book'
+				? 'Position in book — click to show page within chapter'
+				: 'Page within chapter — click to show position in book'
 		},
 	},
 }
@@ -236,12 +319,13 @@ export default {
 
 <style scoped>
 .files-viewers-epub {
+	position: relative;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background: #fff;
+	background: var(--color-main-background, #fff);
 }
 
 .files-viewers-epub-area {
@@ -249,39 +333,114 @@ export default {
 	min-height: 0;
 }
 
-.files-viewers-epub-nav {
+/* compact control bar, themed to match the NC UI */
+.files-viewers-epub-bar {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 20px;
-	padding: 8px;
-	background: #f6f8fa;
-	border-top: 1px solid #e1e4e8;
+	gap: 6px;
+	height: 36px;
+	padding: 0 8px;
+	background: var(--color-main-background, #fff);
+	border-top: 1px solid var(--color-border, #e1e4e8);
+	color: var(--color-main-text, #222);
 }
 
-.files-viewers-epub-btn {
-	min-width: 44px;
-	height: 32px;
-	font-size: 20px;
+.files-viewers-epub-ico {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 28px;
+	font-size: 18px;
 	line-height: 1;
-	border: 1px solid #d0d4d8;
+	border: none;
 	border-radius: 6px;
-	background: #fff;
-	color: #1a1a1a;
+	background: transparent;
+	color: var(--color-main-text, #222);
 	cursor: pointer;
 }
 
-.files-viewers-epub-btn:disabled {
-	opacity: 0.4;
+.files-viewers-epub-ico:hover {
+	background: var(--color-background-hover, #ececec);
+}
+
+.files-viewers-epub-ico:disabled {
+	opacity: 0.35;
 	cursor: default;
+	background: transparent;
+}
+
+.files-viewers-epub-ico.active {
+	background: var(--color-background-dark, #dcdcdc);
 }
 
 .files-viewers-epub-loc {
-	min-width: 64px;
-	text-align: center;
-	color: #555;
+	min-width: 110px;
+	height: 28px;
+	padding: 0 10px;
 	font-size: 13px;
+	line-height: 1;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--color-text-maxcontrast, #767676);
+	cursor: pointer;
+}
+
+.files-viewers-epub-loc:hover {
+	background: var(--color-background-hover, #ececec);
+}
+
+/* table-of-contents overlay */
+.files-viewers-epub-tocbg {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.files-viewers-epub-toc {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 320px;
+	max-width: 80%;
+	overflow-y: auto;
+	padding: 8px 0;
+	background: var(--color-main-background, #fff);
+	border-right: 1px solid var(--color-border, #e1e4e8);
+	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.files-viewers-epub-toc ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.files-viewers-epub-toc-item {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 7px 16px;
+	border: none;
+	background: transparent;
+	color: var(--color-main-text, #222);
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.files-viewers-epub-toc-item:hover {
+	background: var(--color-background-hover, #ececec);
+}
+
+.files-viewers-epub-toc-item.is-sub {
+	padding-left: 32px;
+	font-size: 13px;
+	color: var(--color-text-maxcontrast, #767676);
 }
 
 .files-viewers-msg {
