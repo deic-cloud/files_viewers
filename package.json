@@ -1,0 +1,27 @@
+{
+  "name": "files_viewers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nextcloud Viewer handlers for notebooks, e-books and comics",
+  "scripts": {
+    "build": "webpack --node-env production",
+    "dev": "webpack --node-env development",
+    "watch": "webpack --node-env development --watch"
+  },
+  "dependencies": {
+    "dompurify": "^3.1.0",
+    "epubjs": "^0.3.93",
+    "highlight.js": "^11.9.0",
+    "marked": "^12.0.2",
+    "notebookjs": "^0.8.0"
+  },
+  "devDependencies": {
+    "css-loader": "^6.10.0",
+    "vue": "^2.7.16",
+    "vue-loader": "^15.11.1",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.7.16",
+    "webpack": "^5.106.0",
+    "webpack-cli": "^6.0.1"
+  }
+}
