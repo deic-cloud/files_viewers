@@ -325,12 +325,17 @@ export default {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background: var(--color-main-background, #fff);
+	/* The reading surface stays a white "page" regardless of the NC theme — the
+	   book's pages are transparent and its text is dark, so a themed (dark) area
+	   would show through as a black page with invisible text. The controls below
+	   still follow the NC theme. */
+	background: #fff;
 }
 
 .files-viewers-epub-area {
 	flex: 1 1 auto;
 	min-height: 0;
+	background: #fff;
 }
 
 /* compact control bar, themed to match the NC UI */
