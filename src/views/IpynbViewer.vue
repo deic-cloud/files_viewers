@@ -45,6 +45,49 @@ export default {
 		},
 	},
 
+	methods: {
+		// NC's CSP (img-src 'self' data: blob:) blocks cross-origin images, so a
+		// notebook that references e.g. a license badge just logs a CSP error and
+		// shows nothing. Replace each such image with a click-through link: no CSP
+		// change, no tracking beacons fired, and the image stays reachable on click.
+		// data:/blob: outputs (matplotlib plots etc.) and same-origin images are
+		// left untouched — the CSP already allows them.
+		rewriteExternalImages(root) {
+			const origin = window.location.origin
+			root.querySelectorAll('img').forEach((img) => {
+				const src = img.getAttribute('src') || ''
+				if (!/^(https?:)?\/\//i.test(src)) {
+					return
+				}
+				let external = true
+				try {
+					external = new URL(src, origin).origin !== origin
+				} catch (e) {
+					external = true
+				}
+				if (!external) {
+					return
+				}
+				let label = img.getAttribute('alt') || ''
+				if (!label) {
+					try {
+						const u = new URL(src, origin)
+						label = u.pathname.split('/').filter(Boolean).pop() || u.hostname
+					} catch (e) {
+						label = src
+					}
+				}
+				const a = document.createElement('a')
+				a.href = src
+				a.target = '_blank'
+				a.rel = 'noopener noreferrer'
+				a.className = 'files-viewers-extimg'
+				a.textContent = '🔗 external image: ' + label + ' ↗'
+				img.replaceWith(a)
+			})
+		},
+	},
+
 	async mounted() {
 		try {
 			const res = await fetch(this.src)
@@ -55,7 +98,11 @@ export default {
 			const rendered = nb.parse(json).render()
 			// Outputs can contain arbitrary HTML/SVG (pandas tables, etc.) — sanitise
 			// against XSS before inserting (the CSP also blocks inline scripts).
-			this.$refs.nb.innerHTML = DOMPurify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
+			const clean = DOMPurify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
+			const container = document.createElement('div')
+			container.innerHTML = clean
+			this.rewriteExternalImages(container)
+			this.$refs.nb.innerHTML = container.innerHTML
 		} catch (e) {
 			this.error = 'Could not render notebook: ' + (e && e.message ? e.message : e)
 		} finally {
@@ -134,6 +181,19 @@ export default {
 .files-viewers-nb svg {
 	max-width: 100%;
 	height: auto;
+}
+
+/* placeholder shown in place of a CSP-blocked external image */
+.files-viewers-nb .files-viewers-extimg {
+	display: inline-block;
+	margin: 2px 0;
+	padding: 2px 8px;
+	border: 1px dashed #c8ccd0;
+	border-radius: 4px;
+	color: #0b5cad;
+	font-size: 13px;
+	text-decoration: none;
+	word-break: break-all;
 }
 
 .files-viewers-nb table {
