@@ -12,8 +12,56 @@ import hljs from 'highlight.js/lib/common'
 import DOMPurify from 'dompurify'
 import 'highlight.js/styles/github.css'
 
+// Replace cross-origin <img> with a click-through link, operating on an HTML
+// STRING. notebookjs builds live DOM during render() and the browser fetches
+// any <img src> the instant the element exists (even detached) — which NC's CSP
+// (img-src 'self' data: blob:) blocks, logging an error. So we must neutralise
+// the URL BEFORE notebookjs creates the element, not after. DOMParser yields an
+// inert document (no browsing context), so parsing here triggers no network
+// request. data:/blob: and same-origin images are left alone (CSP allows them;
+// matplotlib plots are data: URIs).
+function neutralizeExternalImages(html) {
+	const origin = window.location.origin
+	const doc = new DOMParser().parseFromString(String(html), 'text/html')
+	doc.querySelectorAll('img').forEach((img) => {
+		const src = img.getAttribute('src') || ''
+		if (!/^(https?:)?\/\//i.test(src)) {
+			return
+		}
+		let external = true
+		try {
+			external = new URL(src, origin).origin !== origin
+		} catch (e) {
+			external = true
+		}
+		if (!external) {
+			return
+		}
+		let label = img.getAttribute('alt') || ''
+		if (!label) {
+			try {
+				const u = new URL(src, origin)
+				label = u.pathname.split('/').filter(Boolean).pop() || u.hostname
+			} catch (e) {
+				label = src
+			}
+		}
+		const a = doc.createElement('a')
+		a.setAttribute('href', src)
+		a.setAttribute('target', '_blank')
+		a.setAttribute('rel', 'noopener noreferrer')
+		a.setAttribute('class', 'files-viewers-extimg')
+		a.textContent = '🔗 external image: ' + label + ' ↗'
+		img.replaceWith(a)
+	})
+	return doc.body.innerHTML
+}
+
 // notebookjs delegates markdown + code highlighting to these (module-level, set once).
-nb.markdown = (md) => marked.parse(md || '')
+// Both hooks run on the HTML string before notebookjs sets innerHTML, so external
+// images are turned into links before anything can be fetched.
+nb.markdown = (md) => neutralizeExternalImages(marked.parse(md || ''))
+nb.sanitizer = (html) => neutralizeExternalImages(html)
 nb.highlighter = (text, pre, code, lang) => {
 	let html = null
 	try {
@@ -45,49 +93,6 @@ export default {
 		},
 	},
 
-	methods: {
-		// NC's CSP (img-src 'self' data: blob:) blocks cross-origin images, so a
-		// notebook that references e.g. a license badge just logs a CSP error and
-		// shows nothing. Replace each such image with a click-through link: no CSP
-		// change, no tracking beacons fired, and the image stays reachable on click.
-		// data:/blob: outputs (matplotlib plots etc.) and same-origin images are
-		// left untouched — the CSP already allows them.
-		rewriteExternalImages(root) {
-			const origin = window.location.origin
-			root.querySelectorAll('img').forEach((img) => {
-				const src = img.getAttribute('src') || ''
-				if (!/^(https?:)?\/\//i.test(src)) {
-					return
-				}
-				let external = true
-				try {
-					external = new URL(src, origin).origin !== origin
-				} catch (e) {
-					external = true
-				}
-				if (!external) {
-					return
-				}
-				let label = img.getAttribute('alt') || ''
-				if (!label) {
-					try {
-						const u = new URL(src, origin)
-						label = u.pathname.split('/').filter(Boolean).pop() || u.hostname
-					} catch (e) {
-						label = src
-					}
-				}
-				const a = document.createElement('a')
-				a.href = src
-				a.target = '_blank'
-				a.rel = 'noopener noreferrer'
-				a.className = 'files-viewers-extimg'
-				a.textContent = '🔗 external image: ' + label + ' ↗'
-				img.replaceWith(a)
-			})
-		},
-	},
-
 	async mounted() {
 		try {
 			const res = await fetch(this.src)
@@ -96,13 +101,10 @@ export default {
 			}
 			const json = JSON.parse(await res.text())
 			const rendered = nb.parse(json).render()
-			// Outputs can contain arbitrary HTML/SVG (pandas tables, etc.) — sanitise
-			// against XSS before inserting (the CSP also blocks inline scripts).
-			const clean = DOMPurify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
-			const container = document.createElement('div')
-			container.innerHTML = clean
-			this.rewriteExternalImages(container)
-			this.$refs.nb.innerHTML = container.innerHTML
+			// External images are already turned into links upstream (nb.markdown /
+			// nb.sanitizer), so nothing cross-origin is fetched. DOMPurify still runs
+			// here to guard against XSS in cell outputs (the CSP also blocks scripts).
+			this.$refs.nb.innerHTML = DOMPurify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
 		} catch (e) {
 			this.error = 'Could not render notebook: ' + (e && e.message ? e.message : e)
 		} finally {

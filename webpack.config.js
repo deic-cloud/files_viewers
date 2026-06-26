@@ -27,6 +27,10 @@ module.exports = (env, argv) => {
 		},
 		optimization: {
 			splitChunks: false,
+			// Ship readable, auditable JS (no Terser mangling). The bundle is mostly
+			// well-known OSS libs (notebookjs, marked, highlight.js, dompurify); NC
+			// serves it gzipped, so the over-the-wire cost stays modest.
+			minimize: false,
 		},
 		module: {
 			rules: [
