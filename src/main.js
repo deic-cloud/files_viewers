@@ -6,6 +6,7 @@
  * or register directly if it already is — covering both script-load orders.
  */
 import IpynbViewer from './views/IpynbViewer.vue'
+import EpubViewer from './views/EpubViewer.vue'
 
 const handlers = [
 	{
@@ -13,6 +14,13 @@ const handlers = [
 		group: 'documents',
 		mimes: ['application/x-ipynb+json'],
 		component: IpynbViewer,
+		theme: 'default',
+	},
+	{
+		id: 'files_viewers-epub',
+		group: 'documents',
+		mimes: ['application/epub+zip'],
+		component: EpubViewer,
 		theme: 'default',
 	},
 ]
