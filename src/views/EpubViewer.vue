@@ -191,12 +191,17 @@ export default {
 			})
 
 			// Keep images — notably full-page covers — within a single page instead
-			// of overflowing onto the next. Injected as the default theme (<style>,
-			// allowed by style-src 'unsafe-inline').
+			// of overflowing onto the next. Use a DEFINITE unit (vh): some covers set
+			// the image to height:100% inside auto-height parents, and a percentage
+			// max-height then resolves against an indefinite block and collapses the
+			// image to zero (a blank page). height:auto overrides that fragile inline
+			// height; max-width/height then scale it to fit one page, aspect intact.
+			// Injected as the default theme (<style>, allowed by style-src 'unsafe-inline').
 			this.rendition.themes.default({
-				'img, image, svg': {
+				'img, svg': {
+					height: 'auto !important',
 					'max-width': '100% !important',
-					'max-height': '100% !important',
+					'max-height': '95vh !important',
 				},
 			})
 

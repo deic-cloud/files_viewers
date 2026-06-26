@@ -1,6 +1,6 @@
 {
   "name": "files_viewers",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "description": "Nextcloud Viewer handlers for notebooks, e-books and comics",
   "scripts": {
