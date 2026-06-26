@@ -181,7 +181,9 @@ export default {
 				width: '100%',
 				height: '100%',
 				flow: 'paginated',
-				spread: 'auto',
+				// single page: 'auto' pairs the cover with a blank page in a two-page
+				// spread and can land the initial view on the blank one.
+				spread: 'none',
 				// sandbox the section iframes: the e-book can't run scripts
 				allowScriptedContent: false,
 				// NC's CSP is default-src 'none' with no frame-src, which blocks the
@@ -208,6 +210,13 @@ export default {
 			this.rendition.on('relocated', (location) => {
 				this.ready = true
 				this.updateLocation(location)
+				const s = location && location.start
+				// eslint-disable-next-line no-console
+				console.debug('[files_viewers] relocated', s && s.href, 'page', s && s.displayed, 'cfi', s && s.cfi)
+			})
+			this.rendition.on('rendered', (section) => {
+				// eslint-disable-next-line no-console
+				console.debug('[files_viewers] rendered section', section && section.href, 'index', section && section.index)
 			})
 
 			this.keyHandler = (e) => {
