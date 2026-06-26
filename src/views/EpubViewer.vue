@@ -19,6 +19,43 @@
 <script>
 import ePub from 'epubjs'
 
+// epub.js's archive readers (getText/getBase64) strip the FIRST character of the
+// path — they assume a leading "/". So any path handed to them must keep its
+// leading slash. Resolve an href (relative to a section or stylesheet) to that
+// form, dropping any origin epub.js may have prepended.
+function archivePath(href, baseFile) {
+	const base = 'http://epub.local/'
+		+ String(baseFile || '').replace(/^https?:\/\/[^/]+/i, '').replace(/^\/+/, '')
+	return new URL(href, base).pathname // e.g. "/OEBPS/pgepub.css" (leading slash kept)
+}
+
+// Inline a stylesheet's url(...) assets (embedded fonts, images) as data: URIs
+// read from the epub archive, so they load under NC's CSP (font-src/img-src both
+// allow data:). Returns the rewritten CSS text.
+async function inlineCssAssets(css, cssPath, archive) {
+	const dir = cssPath.replace(/[^/]*$/, '') // directory of the stylesheet
+	const re = /url\(\s*(['"]?)([^'")]+)\1\s*\)/gi
+	const map = new Map()
+	let m
+	while ((m = re.exec(css)) !== null) {
+		const raw = m[2].trim()
+		if (raw && !/^(data:|https?:|blob:|#)/i.test(raw)) {
+			map.set(raw, null)
+		}
+	}
+	await Promise.all(Array.from(map.keys()).map(async (raw) => {
+		try {
+			const p = decodeURIComponent(new URL(raw, 'http://epub.local' + dir).pathname)
+			const dataUrl = await archive.getBase64(p) // returns "data:<mime>;base64,…"
+			if (dataUrl) { map.set(raw, dataUrl) }
+		} catch (e) { /* leave the url as-is */ }
+	}))
+	return css.replace(re, (full, q, raw) => {
+		const data = map.get(raw.trim())
+		return data ? 'url("' + data + '")' : full
+	})
+}
+
 export default {
 	name: 'EpubViewer',
 
@@ -52,39 +89,37 @@ export default {
 			// blob: URLs, so the <base> is vestigial here — strip it in a spine
 			// content hook (runs on the section DOM before it's serialised into the
 			// iframe), so no <base> is ever written and the violation never fires.
+			// The book's CSS, fonts and images are bundled inside the .epub; epub.js
+			// would serve them as blob: URLs, which NC's CSP blocks. Inline them
+			// instead: read each stylesheet from the archive into a <style> element
+			// (allowed by 'unsafe-inline') and rewrite its url(...) assets to data:
+			// URIs (allowed by font-src/img-src). CSP-clean, keeps full styling +
+			// embedded fonts. Falls back to dropping a link that can't be resolved.
 			this.book.spine.hooks.content.register(async (doc, section) => {
-				// <base href>: blocked by base-uri 'none' (vestigial — resources are
-				// rewritten to absolute blob: URLs).
 				try {
+					// <base href>: blocked by base-uri 'none' (vestigial here).
 					doc.querySelectorAll('base').forEach((b) => b.remove())
 				} catch (e) { /* noop */ }
 
-				// The book's CSS is bundled INSIDE the .epub and referenced relatively;
-				// epub.js would serve it as a blob: <link>, which NC's CSP (style-src
-				// 'self' 'unsafe-inline', no blob:) blocks. Inline the stylesheet text
-				// straight from the archive into a <style> element instead — allowed by
-				// 'unsafe-inline', so the book keeps its real styling, no CSP change.
-				// Falls back to removing the link if anything can't be resolved (no
-				// regression, no console error either way).
+				const baseFile = section.canonical || section.url || section.href || ''
+				const archive = this.book.archive
 				const links = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
 				for (const link of links) {
 					const href = link.getAttribute('href') || ''
 					try {
 						let css = null
+						let cssPath = null
 						if (/^(blob:|https?:)/i.test(href)) {
 							const r = await fetch(href)
 							if (r.ok) { css = await r.text() }
-						} else if (href && this.book.archive) {
-							// resolve the href relative to the section, then read from the zip
-							const baseFile = (section.canonical || section.url || section.href || '')
-								.replace(/^https?:\/\/[^/]+/i, '')
-								.replace(/^\/+/, '')
-							const path = decodeURIComponent(
-								new URL(href, 'http://epub.local/' + baseFile).pathname.replace(/^\/+/, ''),
-							)
-							css = await this.book.archive.getText(path)
+						} else if (href && archive) {
+							cssPath = archivePath(href, baseFile)
+							css = await archive.getText(cssPath)
 						}
 						if (css) {
+							if (cssPath && archive) {
+								css = await inlineCssAssets(css, cssPath, archive)
+							}
 							const style = doc.createElement('style')
 							style.textContent = css
 							link.parentNode.replaceChild(style, link)
