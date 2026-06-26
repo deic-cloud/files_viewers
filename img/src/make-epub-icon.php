@@ -1,6 +1,7 @@
 <?php
-// .epub file icon, matching the NC filetype style used for the .ipynb icon:
-// a square tile with slightly rounded corners holding a simple book glyph.
+// .epub file icon: an OPEN book that fills most of the tile, so it reads as a
+// book by silhouette even at small list sizes (the previous closed-book design
+// looked like a document and its white page edges vanished when small).
 // Rendered at 2x then downscaled for anti-aliasing.
 
 $outPath = $argv[1] ?? 'epub.png';
@@ -12,13 +13,12 @@ imagealphablending($im, false);
 imagefill($im, 0, 0, imagecolorallocatealpha($im, 0, 0, 0, 127));
 imagealphablending($im, true);
 
-$fill    = imagecolorallocate($im, 243, 244, 246); // #f3f4f6 tile
-$border  = imagecolorallocate($im, 207, 211, 216); // #cfd3d8
-$pages   = imagecolorallocate($im, 255, 255, 255);
-$pageEdge = imagecolorallocate($im, 205, 209, 214);
-$cover   = imagecolorallocate($im, 74, 120, 181);  // #4a78b5
-$spine   = imagecolorallocate($im, 58, 95, 143);   // #3a5f8a darker
-$line    = imagecolorallocate($im, 255, 255, 255);
+$fill   = imagecolorallocate($im, 243, 244, 246); // #f3f4f6 tile
+$border = imagecolorallocate($im, 207, 211, 216); // #cfd3d8
+$cover  = imagecolorallocate($im, 58, 95, 143);   // #3a5f8a cover/binding (dark blue)
+$page   = imagecolorallocate($im, 255, 255, 255);
+$pageEdge = imagecolorallocate($im, 168, 190, 220); // light blue page shadow
+$lines  = imagecolorallocate($im, 150, 170, 200);
 
 function fillRoundedRect($im, $x1, $y1, $x2, $y2, $r, $color) {
 	imagefilledrectangle($im, $x1 + $r, $y1, $x2 - $r, $y2, $color);
@@ -34,23 +34,28 @@ $m = 10; $r = 60; $bw = 5;
 fillRoundedRect($im, $m, $m, $S - $m, $S - $m, $r, $border);
 fillRoundedRect($im, $m + $bw, $m + $bw, $S - $m - $bw, $S - $m - $bw, $r - $bw, $fill);
 
-// page block (white), offset down-right so it peeks out behind the cover
-imagefilledrectangle($im, 196, 150, 372, 398, $pages);
-imagerectangle($im, 196, 150, 372, 398, $pageEdge);
-// a few page lines on the exposed right/bottom edge
-imagesetthickness($im, 2);
-imageline($im, 360, 158, 360, 390, $pageEdge);
-imageline($im, 366, 162, 366, 386, $pageEdge);
-imagesetthickness($im, 1);
+$cx = 256;
+// Cover/binding (dark blue) — drawn larger so it shows as a border around the
+// pages and as the central spine; fills the tile generously.
+$coverL = [$cx, 96,  70, 150,  70, 416,  $cx, 388];
+$coverR = [$cx, 96,  442, 150,  442, 416,  $cx, 388];
+imagefilledpolygon($im, $coverL, $cover);
+imagefilledpolygon($im, $coverR, $cover);
 
-// cover (front), overlapping the page block
-imagefilledrectangle($im, 150, 132, 340, 388, $cover);
-// spine accent on the left of the cover
-imagefilledrectangle($im, 150, 132, 178, 388, $spine);
-// a couple of title lines on the cover
-imagesetthickness($im, 6);
-imageline($im, 206, 196, 312, 196, $line);
-imageline($im, 206, 226, 290, 226, $line);
+// Pages (white), inset from the cover so the blue cover edge + center spine show.
+$insTop = 116; $insOut1 = 96; $insOut2 = 396; $insBot = 372; $gap = 16;
+$pageL = [$cx - $gap, $insTop,  $insOut1, 168,  $insOut1, $insOut2,  $cx - $gap, $insBot];
+$pageR = [$cx + $gap, $insTop,  416, 168,  416, $insOut2,  $cx + $gap, $insBot];
+imagefilledpolygon($im, $pageL, $page);
+imagefilledpolygon($im, $pageR, $page);
+
+// text lines on each page
+imagesetthickness($im, 7);
+for ($k = 0; $k < 4; $k++) {
+	$y = 200 + $k * 40;
+	imageline($im, 120, $y + 6, $cx - 36, $y - 6, $lines);   // left page (slight tilt)
+	imageline($im, $cx + 36, $y - 6, 392, $y + 6, $lines);   // right page
+}
 imagesetthickness($im, 1);
 
 $final = imagescale($im, 256, 256, IMG_BICUBIC);
