@@ -21,7 +21,14 @@ module.exports = (env, argv) => {
 			// notebookjs misdetects webpack bundles as Node and require()s jsdom
 			// (`new JSDOM().window.document`). Shim it to the real browser window
 			// instead of bundling jsdom + its node deps (canvas/http/net/tls).
-			alias: { jsdom: path.resolve(__dirname, 'src', 'jsdom-shim.js') },
+			alias: {
+				jsdom: path.resolve(__dirname, 'src', 'jsdom-shim.js'),
+				// @codedread/bitjs restricts its "exports" to index.js, but we need the
+				// low-level unrar connect()/disconnect() so we can drive it over a local
+				// MessageChannel on the main thread (no Web Worker → no worker-src CSP).
+				// Aliasing the deep file bypasses the package's exports map.
+				'bitjs-unrar': path.resolve(__dirname, 'node_modules', '@codedread', 'bitjs', 'archive', 'unrar.js'),
+			},
 			// epubjs (added later) references node core modules it doesn't need in-browser
 			fallback: { stream: false, path: false, fs: false, http: false, https: false, net: false, tls: false, zlib: false, crypto: false },
 		},

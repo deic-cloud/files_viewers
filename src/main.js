@@ -25,11 +25,12 @@ const handlers = [
 		theme: 'default',
 	},
 	{
-		// CBZ comics (a ZIP of page images). CBR (RAR) needs a WASM decompressor
-		// that NC's CSP blocks, so it isn't registered here yet.
+		// CBZ (zip) + CBR (rar) comics. CBZ via JSZip; CBR via a pure-JS unrar
+		// (RAR ≤ 3) on the main thread — RAR5 isn't supported (no non-WASM decoder)
+		// and is reported gracefully.
 		id: 'files_viewers-comic',
 		group: 'documents',
-		mimes: ['application/comicbook+zip'],
+		mimes: ['application/comicbook+zip', 'application/comicbook+rar'],
 		component: ComicViewer,
 		theme: 'default',
 	},

@@ -20,8 +20,60 @@
 
 <script>
 import JSZip from 'jszip'
+// Low-level pure-JS RAR decompressor (RAR ≤ 3). Driven over a local MessageChannel
+// on the main thread — no Web Worker, no WASM, so nothing the NC CSP blocks.
+import { connect as rarConnect, disconnect as rarDisconnect } from 'bitjs-unrar'
 
 const IMG_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i
+
+// RAR signature: "Rar!\x1A\x07" then 0x00 (RAR4) or 0x01 0x00 (RAR5).
+function isRar5(buf) {
+	const b = new Uint8Array(buf, 0, Math.min(8, buf.byteLength))
+	return b.length >= 8 && b[0] === 0x52 && b[1] === 0x61 && b[2] === 0x72 && b[3] === 0x21
+		&& b[4] === 0x1a && b[5] === 0x07 && b[6] === 0x01
+}
+
+// Extract a RAR (≤ v3) entirely in-memory on the main thread. Returns
+// [{ name, data: Uint8Array }]. bitjs talks over a MessagePort, so we hand it one
+// end of a MessageChannel and collect the 'extract'/'finish' messages ourselves.
+function unrarEntries(buf) {
+	return new Promise((resolve, reject) => {
+		const files = []
+		let settled = false
+		const mc = new MessageChannel()
+		const onErr = () => finish(true)
+		const finish = (failed, err) => {
+			if (settled) { return }
+			settled = true
+			window.removeEventListener('error', onErr)
+			try { rarDisconnect() } catch (e) { /* noop */ }
+			try { mc.port1.close(); mc.port2.close() } catch (e) { /* noop */ }
+			if (failed) { reject(err || new Error('Could not extract this comic (it may be encrypted or use an unsupported RAR feature)')) } else { resolve(files) }
+		}
+		mc.port1.onmessage = (e) => {
+			const d = e.data
+			if (!d || !d.type) { return }
+			if (d.type === 'extract' && d.unarchivedFile) {
+				files.push({ name: d.unarchivedFile.filename, data: d.unarchivedFile.fileData })
+			} else if (d.type === 'finish') {
+				finish(false)
+			} else if (d.type === 'error') {
+				finish(true, new Error(d.msg || 'unrar error'))
+			}
+		}
+		// bitjs decompresses synchronously inside its port handler; an unexpected
+		// throw surfaces as an uncaught error on the window, so catch that too.
+		window.addEventListener('error', onErr)
+		try {
+			rarConnect(mc.port2)
+			const copy = buf.slice(0)
+			mc.port1.postMessage({ file: copy }, [copy])
+		} catch (e) {
+			finish(true, e)
+		}
+		window.setTimeout(() => finish(true, new Error('Timed out extracting the comic')), 30000)
+	})
+}
 
 function mimeFor(name) {
 	const ext = (name.split('.').pop() || '').toLowerCase()
@@ -58,15 +110,31 @@ export default {
 			}
 			const buf = await res.arrayBuffer()
 
-			// CBZ = a ZIP of page images. (CBR = RAR needs a WASM decompressor, which
-			// NC's CSP blocks — handled separately.)
-			const zip = await JSZip.loadAsync(buf)
-			const entries = []
-			zip.forEach((path, file) => {
-				if (!file.dir && IMG_RE.test(path)) { entries.push(file) }
-			})
-			// natural sort so 2.jpg < 10.jpg
-			entries.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }))
+			const byName = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+			const mime = (this.mime || '').toLowerCase()
+			const isRar = mime.indexOf('rar') !== -1 || /\.cbr$/i.test(this.filename || '')
+
+			let entries
+			if (isRar) {
+				// CBR = RAR of page images. Pure-JS unrar handles RAR ≤ 3; RAR5 isn't
+				// supported by any non-WASM decompressor, so bail out with a clear note.
+				if (isRar5(buf)) {
+					throw new Error('This comic uses the RAR5 format, which this viewer can’t open. Please use a CBZ (zip) comic, or re-save it as CBZ / older RAR.')
+				}
+				const files = (await unrarEntries(buf)).filter((f) => IMG_RE.test(f.name)).sort(byName)
+				// RAR is extracted whole, so the page bytes are already in memory.
+				entries = files.map((f) => ({ name: f.name, get: () => Promise.resolve(f.data) }))
+			} else {
+				// CBZ = a ZIP of page images (pure JS via JSZip; decompressed lazily).
+				const zip = await JSZip.loadAsync(buf)
+				const zEntries = []
+				zip.forEach((path, file) => {
+					if (!file.dir && IMG_RE.test(path)) { zEntries.push(file) }
+				})
+				zEntries.sort(byName)
+				entries = zEntries.map((file) => ({ name: file.name, get: () => file.async('uint8array') }))
+			}
+
 			this._entries = entries
 			this._urls = {}
 			this.total = entries.length
@@ -100,7 +168,7 @@ export default {
 	methods: {
 		async urlFor(i) {
 			if (this._urls[i]) { return this._urls[i] }
-			const data = await this._entries[i].async('uint8array')
+			const data = await this._entries[i].get()
 			const url = URL.createObjectURL(new Blob([data], { type: mimeFor(this._entries[i].name) }))
 			this._urls[i] = url
 			return url
