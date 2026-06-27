@@ -7,6 +7,7 @@
  */
 import IpynbViewer from './views/IpynbViewer.vue'
 import EpubViewer from './views/EpubViewer.vue'
+import ComicViewer from './views/ComicViewer.vue'
 
 const handlers = [
 	{
@@ -21,6 +22,15 @@ const handlers = [
 		group: 'documents',
 		mimes: ['application/epub+zip'],
 		component: EpubViewer,
+		theme: 'default',
+	},
+	{
+		// CBZ comics (a ZIP of page images). CBR (RAR) needs a WASM decompressor
+		// that NC's CSP blocks, so it isn't registered here yet.
+		id: 'files_viewers-comic',
+		group: 'documents',
+		mimes: ['application/comicbook+zip'],
+		component: ComicViewer,
 		theme: 'default',
 	},
 ]
