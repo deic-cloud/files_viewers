@@ -6,6 +6,10 @@
 		<!-- Table of contents -->
 		<div v-if="tocOpen" class="files-viewers-epub-tocbg" @click.self="tocOpen = false">
 			<nav class="files-viewers-epub-toc">
+				<div class="files-viewers-epub-toc-head">
+					<span class="files-viewers-epub-toc-title">Contents</span>
+					<button class="files-viewers-epub-toc-close" title="Close contents" @click="tocOpen = false">✕</button>
+				</div>
 				<ul>
 					<li v-for="(item, i) in toc" :key="i">
 						<button class="files-viewers-epub-toc-item" @click="goTo(item.href)">{{ label(item) }}</button>
@@ -294,7 +298,8 @@ export default {
 		},
 		goTo(href) {
 			if (this.rendition && href) { this.rendition.display(href) }
-			this.tocOpen = false
+			// Keep the TOC open after jumping — it closes only via the ✕ or a click
+			// in the book (the backdrop), so you can browse chapters freely.
 		},
 		doneOnce() {
 			if (!this.done) {
@@ -511,12 +516,13 @@ export default {
 	color: var(--color-text-maxcontrast, #767676);
 }
 
-/* table-of-contents overlay */
+/* table-of-contents overlay — transparent backdrop so the book stays visible;
+   it only catches clicks to close the panel. */
 .files-viewers-epub-tocbg {
 	position: absolute;
 	inset: 0;
 	z-index: 5;
-	background: rgba(0, 0, 0, 0.2);
+	background: transparent;
 }
 
 .files-viewers-epub-toc {
@@ -527,10 +533,52 @@ export default {
 	width: 320px;
 	max-width: 80%;
 	overflow-y: auto;
-	padding: 8px 0;
+	/* frosted, semi-transparent panel so the book shows through behind it */
 	background: var(--color-main-background, #fff);
+	background: color-mix(in srgb, var(--color-main-background, #fff) 85%, transparent);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
 	border-right: 1px solid var(--color-border, #e1e4e8);
 	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.files-viewers-epub-toc-head {
+	position: sticky;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 6px 8px 6px 16px;
+	background: var(--color-main-background, #fff);
+	border-bottom: 1px solid var(--color-border, #e1e4e8);
+}
+
+.files-viewers-epub-toc-title {
+	font-size: 13px;
+	font-weight: bold;
+	color: var(--color-main-text, #222);
+}
+
+.files-viewers-epub-toc-close {
+	width: 28px;
+	height: 28px;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	font-size: 14px;
+	line-height: 1;
+	color: var(--color-main-text, #222) !important;
+	cursor: pointer;
+}
+
+.files-viewers-epub-toc-close:hover {
+	background: var(--color-background-hover, #ececec);
+}
+
+.files-viewers-epub-toc-close:focus,
+.files-viewers-epub-toc-close:active {
+	background: transparent !important;
+	box-shadow: none !important;
 }
 
 .files-viewers-epub-toc ul {
