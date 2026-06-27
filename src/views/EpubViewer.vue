@@ -192,6 +192,12 @@ export default {
 				}
 			})
 
+			// The viewer can be closed during the fetch/parse above (rapid clicking
+			// through files); epub.js would then renderTo(undefined) and throw
+			// asynchronously from its render queue. Bail if we're gone.
+			if (this._gone || !this.$refs.area) {
+				return
+			}
 			this.rendition = this.book.renderTo(this.$refs.area, {
 				width: '100%',
 				height: '100%',
@@ -279,6 +285,7 @@ export default {
 	},
 
 	beforeDestroy() {
+		this._gone = true
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}

@@ -5268,7 +5268,7 @@ code.hljs {
 
 /***/ },
 
-/***/ 2245
+/***/ 8341
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5283,7 +5283,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-comic[data-v-41c5042b] {
+.files-viewers-comic[data-v-0186af97] {
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -5291,7 +5291,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	flex-direction: column;
 	background: var(--color-main-background, #fff);
 }
-.files-viewers-comic-stage[data-v-41c5042b] {
+.files-viewers-comic-stage[data-v-0186af97] {
 	flex: 1 1 auto;
 	min-height: 0;
 	display: flex;
@@ -5301,23 +5301,23 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 }
 
 /* fit the whole page within the viewport */
-.files-viewers-comic-stage.fit-height .files-viewers-comic-img[data-v-41c5042b] {
+.files-viewers-comic-stage.fit-height .files-viewers-comic-img[data-v-0186af97] {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
 
 /* fill the width and scroll down the page */
-.files-viewers-comic-stage.fit-width[data-v-41c5042b] {
+.files-viewers-comic-stage.fit-width[data-v-0186af97] {
 	align-items: flex-start;
 }
-.files-viewers-comic-stage.fit-width .files-viewers-comic-img[data-v-41c5042b] {
+.files-viewers-comic-stage.fit-width .files-viewers-comic-img[data-v-0186af97] {
 	width: 100%;
 	height: auto;
 }
 
 /* compact control bar, themed to match the NC UI (mirrors the epub viewer) */
-.files-viewers-comic-bar[data-v-41c5042b] {
+.files-viewers-comic-bar[data-v-0186af97] {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -5329,7 +5329,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-top: 1px solid var(--color-border, #e1e4e8);
 	color: var(--color-main-text, #222);
 }
-.files-viewers-comic-ico[data-v-41c5042b] {
+.files-viewers-comic-ico[data-v-0186af97] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -5343,21 +5343,21 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-comic-ico[data-v-41c5042b]:hover {
+.files-viewers-comic-ico[data-v-0186af97]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-comic-ico[data-v-41c5042b]:disabled {
+.files-viewers-comic-ico[data-v-0186af97]:disabled {
 	opacity: 0.35;
 	cursor: default;
 	background: transparent;
 }
-.files-viewers-comic-ico[data-v-41c5042b]:focus,
-.files-viewers-comic-ico[data-v-41c5042b]:focus-visible,
-.files-viewers-comic-ico[data-v-41c5042b]:active {
+.files-viewers-comic-ico[data-v-0186af97]:focus,
+.files-viewers-comic-ico[data-v-0186af97]:focus-visible,
+.files-viewers-comic-ico[data-v-0186af97]:active {
 	background: transparent !important;
 	box-shadow: none !important;
 }
-.files-viewers-comic-loc[data-v-41c5042b] {
+.files-viewers-comic-loc[data-v-0186af97] {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -5367,7 +5367,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-msg[data-v-41c5042b] {
+.files-viewers-msg[data-v-0186af97] {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
 }
@@ -5382,7 +5382,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 799
+/***/ 5297
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5397,7 +5397,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-epub[data-v-e5b58e3c] {
+.files-viewers-epub[data-v-82662a56] {
 	position: relative;
 	box-sizing: border-box;
 	width: 100%;
@@ -5409,14 +5409,14 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	   light-on-dark in dark mode, dark-on-light in light mode. */
 	background: var(--color-main-background, #fff);
 }
-.files-viewers-epub-area[data-v-e5b58e3c] {
+.files-viewers-epub-area[data-v-82662a56] {
 	flex: 1 1 auto;
 	min-height: 0;
 	background: var(--color-main-background, #fff);
 }
 
 /* compact control bar, themed to match the NC UI */
-.files-viewers-epub-bar[data-v-e5b58e3c] {
+.files-viewers-epub-bar[data-v-82662a56] {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -5428,7 +5428,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-top: 1px solid var(--color-border, #e1e4e8);
 	color: var(--color-main-text, #222);
 }
-.files-viewers-epub-ico[data-v-e5b58e3c] {
+.files-viewers-epub-ico[data-v-82662a56] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -5444,18 +5444,18 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-ico[data-v-e5b58e3c]:hover {
+.files-viewers-epub-ico[data-v-82662a56]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-ico[data-v-e5b58e3c]:disabled {
+.files-viewers-epub-ico[data-v-82662a56]:disabled {
 	opacity: 0.35;
 	cursor: default;
 	background: transparent;
 }
-.files-viewers-epub-ico.active[data-v-e5b58e3c] {
+.files-viewers-epub-ico.active[data-v-82662a56] {
 	background: var(--color-background-dark, #dcdcdc);
 }
-.files-viewers-epub-readout[data-v-e5b58e3c] {
+.files-viewers-epub-readout[data-v-82662a56] {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
@@ -5463,13 +5463,13 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-epub-chap[data-v-e5b58e3c] {
+.files-viewers-epub-chap[data-v-82662a56] {
 	max-width: 38vw;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.files-viewers-epub-pages[data-v-e5b58e3c] {
+.files-viewers-epub-pages[data-v-82662a56] {
 	height: 28px;
 	padding: 2px 8px;
 	border: none;
@@ -5482,34 +5482,34 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-pages[data-v-e5b58e3c]:hover {
+.files-viewers-epub-pages[data-v-82662a56]:hover {
 	background: var(--color-background-hover, #ececec);
 }
 
 /* Suppress NC core's blue focus/active button background + glow on our toolbar
    buttons (clicking the page readout shouldn't flash blue). */
-.files-viewers-epub-ico[data-v-e5b58e3c]:focus,
-.files-viewers-epub-ico[data-v-e5b58e3c]:focus-visible,
-.files-viewers-epub-ico[data-v-e5b58e3c]:active,
-.files-viewers-epub-pages[data-v-e5b58e3c]:focus,
-.files-viewers-epub-pages[data-v-e5b58e3c]:focus-visible,
-.files-viewers-epub-pages[data-v-e5b58e3c]:active {
+.files-viewers-epub-ico[data-v-82662a56]:focus,
+.files-viewers-epub-ico[data-v-82662a56]:focus-visible,
+.files-viewers-epub-ico[data-v-82662a56]:active,
+.files-viewers-epub-pages[data-v-82662a56]:focus,
+.files-viewers-epub-pages[data-v-82662a56]:focus-visible,
+.files-viewers-epub-pages[data-v-82662a56]:active {
 	background: transparent !important;
 	box-shadow: none !important;
 }
-.files-viewers-epub-pct[data-v-e5b58e3c] {
+.files-viewers-epub-pct[data-v-82662a56] {
 	color: var(--color-text-maxcontrast, #767676);
 }
 
 /* table-of-contents overlay — transparent backdrop so the book stays visible;
    it only catches clicks to close the panel. */
-.files-viewers-epub-tocbg[data-v-e5b58e3c] {
+.files-viewers-epub-tocbg[data-v-82662a56] {
 	position: absolute;
 	inset: 0;
 	z-index: 5;
 	background: transparent;
 }
-.files-viewers-epub-toc[data-v-e5b58e3c] {
+.files-viewers-epub-toc[data-v-82662a56] {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -5525,7 +5525,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-right: 1px solid var(--color-border, #e1e4e8);
 	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
 }
-.files-viewers-epub-toc-head[data-v-e5b58e3c] {
+.files-viewers-epub-toc-head[data-v-82662a56] {
 	position: sticky;
 	top: 0;
 	display: flex;
@@ -5535,12 +5535,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	background: var(--color-main-background, #fff);
 	border-bottom: 1px solid var(--color-border, #e1e4e8);
 }
-.files-viewers-epub-toc-title[data-v-e5b58e3c] {
+.files-viewers-epub-toc-title[data-v-82662a56] {
 	font-size: 13px;
 	font-weight: bold;
 	color: var(--color-main-text, #222);
 }
-.files-viewers-epub-toc-close[data-v-e5b58e3c] {
+.files-viewers-epub-toc-close[data-v-82662a56] {
 	width: 28px;
 	height: 28px;
 	border: none;
@@ -5551,20 +5551,20 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-toc-close[data-v-e5b58e3c]:hover {
+.files-viewers-epub-toc-close[data-v-82662a56]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-toc-close[data-v-e5b58e3c]:focus,
-.files-viewers-epub-toc-close[data-v-e5b58e3c]:active {
+.files-viewers-epub-toc-close[data-v-82662a56]:focus,
+.files-viewers-epub-toc-close[data-v-82662a56]:active {
 	background: transparent !important;
 	box-shadow: none !important;
 }
-.files-viewers-epub-toc ul[data-v-e5b58e3c] {
+.files-viewers-epub-toc ul[data-v-82662a56] {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-.files-viewers-epub-toc-item[data-v-e5b58e3c] {
+.files-viewers-epub-toc-item[data-v-82662a56] {
 	display: block;
 	width: 100%;
 	text-align: left;
@@ -5575,15 +5575,15 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 14px;
 	cursor: pointer;
 }
-.files-viewers-epub-toc-item[data-v-e5b58e3c]:hover {
+.files-viewers-epub-toc-item[data-v-82662a56]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-toc-item.is-sub[data-v-e5b58e3c] {
+.files-viewers-epub-toc-item.is-sub[data-v-82662a56] {
 	padding-left: 32px;
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-msg[data-v-e5b58e3c] {
+.files-viewers-msg[data-v-82662a56] {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
 }
@@ -5598,7 +5598,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 4511
+/***/ 3113
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25248,51 +25248,51 @@ var update = add("69ad3352", content, true, {});
 
 /***/ },
 
-/***/ 1156
+/***/ 9271
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(2245);
+var content = __webpack_require__(8341);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("4f502d1e", content, true, {});
+var update = add("f3586786", content, true, {});
 
 /***/ },
 
-/***/ 5152
+/***/ 1358
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(799);
+var content = __webpack_require__(5297);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("f4db784a", content, true, {});
+var update = add("076f25de", content, true, {});
 
 /***/ },
 
-/***/ 220
+/***/ 6146
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4511);
+var content = __webpack_require__(3113);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("49c8a325", content, true, {});
+var update = add("a18b254a", content, true, {});
 
 /***/ },
 
@@ -49741,10 +49741,10 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ const IpynbViewer = (component.exports);
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=e5b58e3c&scoped=true
-var EpubViewervue_type_template_id_e5b58e3c_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('div',{staticClass:"files-viewers-epub-toc-head"},[_c('span',{staticClass:"files-viewers-epub-toc-title"},[_vm._v("Contents")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-toc-close",attrs:{"title":"Close contents"},on:{"click":function($event){_vm.tocOpen = false}}},[_vm._v("✕")])]),_vm._v(" "),_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-epub-readout"},[(_vm.chapterLabel)?_c('span',{staticClass:"files-viewers-epub-chap"},[_vm._v(_vm._s(_vm.chapterLabel))]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-pages",attrs:{"title":"Click to switch between page in chapter and page in book"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.pagesLabel || '…'))]),_vm._v(" "),(_vm.pctLabel)?_c('span',{staticClass:"files-viewers-epub-pct"},[_vm._v(_vm._s(_vm.pctLabel))]):_vm._e()]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=82662a56&scoped=true
+var EpubViewervue_type_template_id_82662a56_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('div',{staticClass:"files-viewers-epub-toc-head"},[_c('span',{staticClass:"files-viewers-epub-toc-title"},[_vm._v("Contents")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-toc-close",attrs:{"title":"Close contents"},on:{"click":function($event){_vm.tocOpen = false}}},[_vm._v("✕")])]),_vm._v(" "),_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-epub-readout"},[(_vm.chapterLabel)?_c('span',{staticClass:"files-viewers-epub-chap"},[_vm._v(_vm._s(_vm.chapterLabel))]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-pages",attrs:{"title":"Click to switch between page in chapter and page in book"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.pagesLabel || '…'))]),_vm._v(" "),(_vm.pctLabel)?_c('span',{staticClass:"files-viewers-epub-pct"},[_vm._v(_vm._s(_vm.pctLabel))]):_vm._e()]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
 }
-var EpubViewervue_type_template_id_e5b58e3c_scoped_true_staticRenderFns = []
+var EpubViewervue_type_template_id_82662a56_scoped_true_staticRenderFns = []
 
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
@@ -64077,6 +64077,12 @@ async function inlineCssAssets(css, cssPath, archive) {
 				}
 			})
 
+			// The viewer can be closed during the fetch/parse above (rapid clicking
+			// through files); epub.js would then renderTo(undefined) and throw
+			// asynchronously from its render queue. Bail if we're gone.
+			if (this._gone || !this.$refs.area) {
+				return
+			}
 			this.rendition = this.book.renderTo(this.$refs.area, {
 				width: '100%',
 				height: '100%',
@@ -64164,6 +64170,7 @@ async function inlineCssAssets(css, cssPath, archive) {
 	},
 
 	beforeDestroy() {
+		this._gone = true
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
@@ -64287,13 +64294,13 @@ async function inlineCssAssets(css, cssPath, archive) {
 
 ;// ./src/views/EpubViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_EpubViewervue_type_script_lang_js = (EpubViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=e5b58e3c&prod&scoped=true&lang=css
-var EpubViewervue_type_style_index_0_id_e5b58e3c_prod_scoped_true_lang_css = __webpack_require__(5152);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=e5b58e3c&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=82662a56&prod&scoped=true&lang=css
+var EpubViewervue_type_style_index_0_id_82662a56_prod_scoped_true_lang_css = __webpack_require__(1358);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=82662a56&prod&scoped=true&lang=css
 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=e5b58e3c&prod&lang=css
-var EpubViewervue_type_style_index_1_id_e5b58e3c_prod_lang_css = __webpack_require__(220);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=e5b58e3c&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=82662a56&prod&lang=css
+var EpubViewervue_type_style_index_1_id_82662a56_prod_lang_css = __webpack_require__(6146);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=82662a56&prod&lang=css
 
 ;// ./src/views/EpubViewer.vue
 
@@ -64307,20 +64314,20 @@ var EpubViewervue_type_style_index_1_id_e5b58e3c_prod_lang_css = __webpack_requi
 
 var EpubViewer_component = normalizeComponent(
   views_EpubViewervue_type_script_lang_js,
-  EpubViewervue_type_template_id_e5b58e3c_scoped_true_render,
-  EpubViewervue_type_template_id_e5b58e3c_scoped_true_staticRenderFns,
+  EpubViewervue_type_template_id_82662a56_scoped_true_render,
+  EpubViewervue_type_template_id_82662a56_scoped_true_staticRenderFns,
   false,
   null,
-  "e5b58e3c",
+  "82662a56",
   null
   
 )
 
 /* harmony default export */ const EpubViewer = (EpubViewer_component.exports);
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/ComicViewer.vue?vue&type=template&id=41c5042b&scoped=true
-var ComicViewervue_type_template_id_41c5042b_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-comic"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"stage",staticClass:"files-viewers-comic-stage",class:'fit-' + _vm.fitMode},[(_vm.pageUrl)?_c('img',{staticClass:"files-viewers-comic-img",attrs:{"src":_vm.pageUrl,"alt":'Page ' + (_vm.index + 1)}}):_vm._e()]),_vm._v(" "),(!_vm.error && _vm.total)?_c('div',{staticClass:"files-viewers-comic-bar"},[_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"disabled":_vm.index <= 0,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-comic-loc"},[_vm._v(_vm._s((_vm.index + 1) + ' / ' + _vm.total))]),_vm._v(" "),_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"disabled":_vm.index >= _vm.total - 1,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"title":_vm.fitMode === 'height' ? 'Fit width (scroll)' : 'Fit whole page'},on:{"click":_vm.toggleFit}},[_vm._v("⤢")])]):_vm._e()])
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/ComicViewer.vue?vue&type=template&id=0186af97&scoped=true
+var ComicViewervue_type_template_id_0186af97_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-comic"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"stage",staticClass:"files-viewers-comic-stage",class:'fit-' + _vm.fitMode},[(_vm.pageUrl)?_c('img',{staticClass:"files-viewers-comic-img",attrs:{"src":_vm.pageUrl,"alt":'Page ' + (_vm.index + 1)}}):_vm._e()]),_vm._v(" "),(!_vm.error && _vm.total)?_c('div',{staticClass:"files-viewers-comic-bar"},[_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"disabled":_vm.index <= 0,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-comic-loc"},[_vm._v(_vm._s((_vm.index + 1) + ' / ' + _vm.total))]),_vm._v(" "),_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"disabled":_vm.index >= _vm.total - 1,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-comic-ico",attrs:{"title":_vm.fitMode === 'height' ? 'Fit width (scroll)' : 'Fit whole page'},on:{"click":_vm.toggleFit}},[_vm._v("⤢")])]):_vm._e()])
 }
-var ComicViewervue_type_template_id_41c5042b_scoped_true_staticRenderFns = []
+var ComicViewervue_type_template_id_0186af97_scoped_true_staticRenderFns = []
 
 
 // EXTERNAL MODULE: ./node_modules/jszip/dist/jszip.min.js
@@ -67743,7 +67750,10 @@ function unrarEntries(buf) {
 		} catch (e) {
 			finish(true, e)
 		}
-		window.setTimeout(() => finish(true, new Error('Timed out extracting the comic')), 30000)
+		// Last-resort backstop only. Decompression runs synchronously on the main
+		// thread, so this can't interrupt it — it just bounds a genuine no-response
+		// case. Generous so it doesn't pre-empt a large (but progressing) comic.
+		window.setTimeout(() => finish(true, new Error('Timed out extracting the comic')), 300000)
 	})
 }
 
@@ -67814,6 +67824,7 @@ function mimeFor(name) {
 				throw new Error('No page images found in this archive')
 			}
 
+			if (this._gone) { return } // viewer closed during extraction
 			this.index = Math.min(this.loadPosition(), this.total - 1)
 			await this.showPage(this.index)
 
@@ -67829,6 +67840,7 @@ function mimeFor(name) {
 	},
 
 	beforeDestroy() {
+		this._gone = true
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
@@ -67875,9 +67887,9 @@ function mimeFor(name) {
 
 ;// ./src/views/ComicViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_ComicViewervue_type_script_lang_js = (ComicViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/ComicViewer.vue?vue&type=style&index=0&id=41c5042b&prod&scoped=true&lang=css
-var ComicViewervue_type_style_index_0_id_41c5042b_prod_scoped_true_lang_css = __webpack_require__(1156);
-;// ./src/views/ComicViewer.vue?vue&type=style&index=0&id=41c5042b&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/ComicViewer.vue?vue&type=style&index=0&id=0186af97&prod&scoped=true&lang=css
+var ComicViewervue_type_style_index_0_id_0186af97_prod_scoped_true_lang_css = __webpack_require__(9271);
+;// ./src/views/ComicViewer.vue?vue&type=style&index=0&id=0186af97&prod&scoped=true&lang=css
 
 ;// ./src/views/ComicViewer.vue
 
@@ -67890,11 +67902,11 @@ var ComicViewervue_type_style_index_0_id_41c5042b_prod_scoped_true_lang_css = __
 
 var ComicViewer_component = normalizeComponent(
   views_ComicViewervue_type_script_lang_js,
-  ComicViewervue_type_template_id_41c5042b_scoped_true_render,
-  ComicViewervue_type_template_id_41c5042b_scoped_true_staticRenderFns,
+  ComicViewervue_type_template_id_0186af97_scoped_true_render,
+  ComicViewervue_type_template_id_0186af97_scoped_true_staticRenderFns,
   false,
   null,
-  "41c5042b",
+  "0186af97",
   null
   
 )

@@ -71,7 +71,10 @@ function unrarEntries(buf) {
 		} catch (e) {
 			finish(true, e)
 		}
-		window.setTimeout(() => finish(true, new Error('Timed out extracting the comic')), 30000)
+		// Last-resort backstop only. Decompression runs synchronously on the main
+		// thread, so this can't interrupt it — it just bounds a genuine no-response
+		// case. Generous so it doesn't pre-empt a large (but progressing) comic.
+		window.setTimeout(() => finish(true, new Error('Timed out extracting the comic')), 300000)
 	})
 }
 
@@ -142,6 +145,7 @@ export default {
 				throw new Error('No page images found in this archive')
 			}
 
+			if (this._gone) { return } // viewer closed during extraction
 			this.index = Math.min(this.loadPosition(), this.total - 1)
 			await this.showPage(this.index)
 
@@ -157,6 +161,7 @@ export default {
 	},
 
 	beforeDestroy() {
+		this._gone = true
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
