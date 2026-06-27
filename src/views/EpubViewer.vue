@@ -185,25 +185,10 @@ export default {
 				spread: 'auto',
 				// sandbox the section iframes: the e-book can't run scripts
 				allowScriptedContent: false,
-				// NC's CSP is default-src 'none' with no frame-src, which blocks the
-				// default "srcdoc" iframe. Writing into an about:blank iframe instead
-				// renders without needing a frame-src allowance (CSP-clean).
-				method: 'write',
-			})
-
-			// Keep images — notably full-page covers — within a single page instead
-			// of overflowing onto the next. Use a DEFINITE unit (vh): some covers set
-			// the image to height:100% inside auto-height parents, and a percentage
-			// max-height then resolves against an indefinite block and collapses the
-			// image to zero (a blank page). height:auto overrides that fragile inline
-			// height; max-width/height then scale it to fit one page, aspect intact.
-			// Injected as the default theme (<style>, allowed by style-src 'unsafe-inline').
-			this.rendition.themes.default({
-				'img, svg': {
-					height: 'auto !important',
-					'max-width': '100% !important',
-					'max-height': '95vh !important',
-				},
+				// Use epub.js's default render (srcdoc): document.write (method:'write')
+				// produces a no-DOCTYPE Quirks-Mode document, which broke layout so the
+				// view never settled on the cover (blank page). srcdoc renders in
+				// Standards mode. NC's CSP allows it (no frame-src violation observed).
 			})
 
 			this.rendition.on('relocated', (location) => {
@@ -237,21 +222,6 @@ export default {
 			await this.rendition.display()
 			this.ready = true
 			this.doneOnce()
-
-			// epub.js lays out into the container's size at display() time. In the
-			// Viewer modal that size is often still settling (or momentarily zero) on
-			// first paint, so the cover renders blank until something forces a
-			// re-layout — which is exactly what navigating a page does. Re-fit when
-			// the area resizes, plus a couple of nudges to catch the open transition.
-			this.refit = () => {
-				try { if (this.rendition) { this.rendition.resize() } } catch (e) { /* noop */ }
-			}
-			if (typeof ResizeObserver !== 'undefined') {
-				this.resizeObserver = new ResizeObserver(() => this.refit())
-				this.resizeObserver.observe(this.$refs.area)
-			}
-			window.setTimeout(this.refit, 200)
-			window.setTimeout(this.refit, 600)
 
 			// NOTE: we deliberately do NOT call book.locations.generate() for a
 			// reading-% readout. generate() walks every section (section.load +
