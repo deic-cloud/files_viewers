@@ -238,6 +238,21 @@ export default {
 			this.ready = true
 			this.doneOnce()
 
+			// epub.js lays out into the container's size at display() time. In the
+			// Viewer modal that size is often still settling (or momentarily zero) on
+			// first paint, so the cover renders blank until something forces a
+			// re-layout — which is exactly what navigating a page does. Re-fit when
+			// the area resizes, plus a couple of nudges to catch the open transition.
+			this.refit = () => {
+				try { if (this.rendition) { this.rendition.resize() } } catch (e) { /* noop */ }
+			}
+			if (typeof ResizeObserver !== 'undefined') {
+				this.resizeObserver = new ResizeObserver(() => this.refit())
+				this.resizeObserver.observe(this.$refs.area)
+			}
+			window.setTimeout(this.refit, 200)
+			window.setTimeout(this.refit, 600)
+
 			// NOTE: we deliberately do NOT call book.locations.generate() for a
 			// reading-% readout. generate() walks every section (section.load +
 			// section.unload), and unloading the section the rendition is currently
@@ -257,8 +272,8 @@ export default {
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
-		if (this.locTimer) {
-			clearTimeout(this.locTimer)
+		if (this.resizeObserver) {
+			this.resizeObserver.disconnect()
 		}
 		try { if (this.rendition) { this.rendition.destroy() } } catch (e) { /* noop */ }
 		try { if (this.book) { this.book.destroy() } } catch (e) { /* noop */ }
