@@ -27,7 +27,7 @@
 				title="Table of contents"
 				@click="tocOpen = !tocOpen">☰</button>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Previous page" @click="prev">‹</button>
-			<button class="files-viewers-epub-loc" :title="locTitle" @click="togglePageMode">{{ locLabel || '…' }}</button>
+			<span class="files-viewers-epub-loc">{{ locLabel || '…' }}</span>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Next page" @click="next">›</button>
 		</div>
 	</div>
@@ -84,11 +84,8 @@ export default {
 			ready: false,
 			done: false,
 			locLabel: '',
-			locTitle: '',
 			toc: [],
 			tocOpen: false,
-			pageMode: 'chapter', // 'chapter' | 'book'
-			locationsReady: false,
 		}
 	},
 
@@ -191,16 +188,20 @@ export default {
 				// Standards mode. NC's CSP allows it (no frame-src violation observed).
 			})
 
+			// Fit images (notably full-page covers) to one page. In Standards mode the
+			// definite vh cap + height:auto override the book's fragile inline height
+			// without collapsing the image (injected <style>, allowed by 'unsafe-inline').
+			this.rendition.themes.default({
+				'img, svg': {
+					height: 'auto !important',
+					'max-width': '100% !important',
+					'max-height': '95vh !important',
+				},
+			})
+
 			this.rendition.on('relocated', (location) => {
 				this.ready = true
 				this.updateLocation(location)
-				const s = location && location.start
-				// eslint-disable-next-line no-console
-				console.debug('[files_viewers] relocated', s && s.href, 'page', s && s.displayed, 'cfi', s && s.cfi)
-			})
-			this.rendition.on('rendered', (section) => {
-				// eslint-disable-next-line no-console
-				console.debug('[files_viewers] rendered section', section && section.href, 'index', section && section.index)
 			})
 
 			this.keyHandler = (e) => {
@@ -242,9 +243,6 @@ export default {
 		if (this.keyHandler) {
 			document.removeEventListener('keyup', this.keyHandler)
 		}
-		if (this.resizeObserver) {
-			this.resizeObserver.disconnect()
-		}
 		try { if (this.rendition) { this.rendition.destroy() } } catch (e) { /* noop */ }
 		try { if (this.book) { this.book.destroy() } } catch (e) { /* noop */ }
 	},
@@ -263,10 +261,6 @@ export default {
 			if (this.rendition && href) { this.rendition.display(href) }
 			this.tocOpen = false
 		},
-		togglePageMode() {
-			this.pageMode = this.pageMode === 'book' ? 'chapter' : 'book'
-			if (this.lastLocation) { this.updateLocation(this.lastLocation) }
-		},
 		doneOnce() {
 			if (!this.done) {
 				this.done = true
@@ -274,36 +268,24 @@ export default {
 			}
 		},
 		updateLocation(location) {
-			this.lastLocation = location
 			const start = location && location.start ? location.start : null
 			if (!start) {
 				return
 			}
 			const parts = []
-			// Overall percentage through the book (once locations are generated).
-			if (this.locationsReady) {
-				try {
-					const pct = Math.round(this.book.locations.percentageFromCfi(start.cfi) * 100)
-					if (!isNaN(pct)) { parts.push(pct + '%') }
-				} catch (e) { /* noop */ }
+			// Rough overall progress from spine position. (A precise page-based %
+			// needs book.locations.generate(), which reloads/unloads every section
+			// and blanks the live view — so we avoid it.)
+			const spine = this.book && this.book.spine
+			const len = spine && (spine.length || (spine.spineItems && spine.spineItems.length))
+			if (len && typeof start.index === 'number') {
+				parts.push(Math.round((start.index / Math.max(1, len - 1)) * 100) + '%')
 			}
-			// page i/n — book "pages" (locations) when toggled, else chapter pages.
-			let i = null
-			let n = null
-			if (this.pageMode === 'book' && this.locationsReady) {
-				try {
-					n = this.book.locations.length()
-					i = (this.book.locations.locationFromCfi(start.cfi) || 0) + 1
-				} catch (e) { i = null; n = null }
+			// page within the current chapter
+			if (start.displayed && start.displayed.total) {
+				parts.push(start.displayed.page + '/' + start.displayed.total)
 			}
-			if (i === null || n === null || n === undefined) {
-				if (start.displayed) { i = start.displayed.page; n = start.displayed.total }
-			}
-			if (i !== null && i !== undefined && n) { parts.push(i + '/' + n) }
 			this.locLabel = parts.join(' · ')
-			this.locTitle = this.pageMode === 'book'
-				? 'Position in book — click to show page within chapter'
-				: 'Page within chapter — click to show position in book'
 		},
 	},
 }
@@ -374,20 +356,15 @@ export default {
 }
 
 .files-viewers-epub-loc {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	min-width: 110px;
 	height: 28px;
 	padding: 0 10px;
 	font-size: 13px;
 	line-height: 1;
-	border: none;
-	border-radius: 6px;
-	background: transparent;
 	color: var(--color-text-maxcontrast, #767676);
-	cursor: pointer;
-}
-
-.files-viewers-epub-loc:hover {
-	background: var(--color-background-hover, #ececec);
 }
 
 /* table-of-contents overlay */
