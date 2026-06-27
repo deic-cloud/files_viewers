@@ -5268,7 +5268,7 @@ code.hljs {
 
 /***/ },
 
-/***/ 2491
+/***/ 3074
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5283,7 +5283,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-epub[data-v-345e91ba] {
+.files-viewers-epub[data-v-dc15d976] {
 	position: relative;
 	box-sizing: border-box;
 	width: 100%;
@@ -5295,14 +5295,14 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	   light-on-dark in dark mode, dark-on-light in light mode. */
 	background: var(--color-main-background, #fff);
 }
-.files-viewers-epub-area[data-v-345e91ba] {
+.files-viewers-epub-area[data-v-dc15d976] {
 	flex: 1 1 auto;
 	min-height: 0;
 	background: var(--color-main-background, #fff);
 }
 
 /* compact control bar, themed to match the NC UI */
-.files-viewers-epub-bar[data-v-345e91ba] {
+.files-viewers-epub-bar[data-v-dc15d976] {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -5314,7 +5314,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-top: 1px solid var(--color-border, #e1e4e8);
 	color: var(--color-main-text, #222);
 }
-.files-viewers-epub-ico[data-v-345e91ba] {
+.files-viewers-epub-ico[data-v-dc15d976] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -5330,18 +5330,18 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-ico[data-v-345e91ba]:hover {
+.files-viewers-epub-ico[data-v-dc15d976]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-ico[data-v-345e91ba]:disabled {
+.files-viewers-epub-ico[data-v-dc15d976]:disabled {
 	opacity: 0.35;
 	cursor: default;
 	background: transparent;
 }
-.files-viewers-epub-ico.active[data-v-345e91ba] {
+.files-viewers-epub-ico.active[data-v-dc15d976] {
 	background: var(--color-background-dark, #dcdcdc);
 }
-.files-viewers-epub-readout[data-v-345e91ba] {
+.files-viewers-epub-readout[data-v-dc15d976] {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
@@ -5349,39 +5349,52 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-epub-chap[data-v-345e91ba] {
+.files-viewers-epub-chap[data-v-dc15d976] {
 	max-width: 38vw;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.files-viewers-epub-pages[data-v-345e91ba] {
+.files-viewers-epub-pages[data-v-dc15d976] {
 	height: 28px;
 	padding: 2px 8px;
 	border: none;
 	border-radius: 6px;
 	background: transparent;
 	font-size: 13px;
+	font-weight: normal;
 	line-height: 1;
 	/* !important: a bare <button> otherwise takes NC core's non-theme colour. */
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-pages[data-v-345e91ba]:hover {
+.files-viewers-epub-pages[data-v-dc15d976]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-pct[data-v-345e91ba] {
+
+/* Suppress NC core's blue focus/active button background + glow on our toolbar
+   buttons (clicking the page readout shouldn't flash blue). */
+.files-viewers-epub-ico[data-v-dc15d976]:focus,
+.files-viewers-epub-ico[data-v-dc15d976]:focus-visible,
+.files-viewers-epub-ico[data-v-dc15d976]:active,
+.files-viewers-epub-pages[data-v-dc15d976]:focus,
+.files-viewers-epub-pages[data-v-dc15d976]:focus-visible,
+.files-viewers-epub-pages[data-v-dc15d976]:active {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+.files-viewers-epub-pct[data-v-dc15d976] {
 	color: var(--color-text-maxcontrast, #767676);
 }
 
 /* table-of-contents overlay */
-.files-viewers-epub-tocbg[data-v-345e91ba] {
+.files-viewers-epub-tocbg[data-v-dc15d976] {
 	position: absolute;
 	inset: 0;
 	z-index: 5;
 	background: rgba(0, 0, 0, 0.2);
 }
-.files-viewers-epub-toc[data-v-345e91ba] {
+.files-viewers-epub-toc[data-v-dc15d976] {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -5394,12 +5407,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-right: 1px solid var(--color-border, #e1e4e8);
 	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
 }
-.files-viewers-epub-toc ul[data-v-345e91ba] {
+.files-viewers-epub-toc ul[data-v-dc15d976] {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-.files-viewers-epub-toc-item[data-v-345e91ba] {
+.files-viewers-epub-toc-item[data-v-dc15d976] {
 	display: block;
 	width: 100%;
 	text-align: left;
@@ -5410,15 +5423,15 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 14px;
 	cursor: pointer;
 }
-.files-viewers-epub-toc-item[data-v-345e91ba]:hover {
+.files-viewers-epub-toc-item[data-v-dc15d976]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-toc-item.is-sub[data-v-345e91ba] {
+.files-viewers-epub-toc-item.is-sub[data-v-dc15d976] {
 	padding-left: 32px;
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-msg[data-v-345e91ba] {
+.files-viewers-msg[data-v-dc15d976] {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
 }
@@ -5433,7 +5446,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 4903
+/***/ 8966
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5448,9 +5461,22 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
+/* The empty strip below the toolbar was the modal-container running full height
+   under the header; clicking it (backdrop) closed the book. Constrain it to the
+   area below the header. */
+#viewer .modal-wrapper .modal-container {
+	height: calc(100% - var(--header-height)) !important;
+}
 #viewer .viewer__file-wrapper,
 #viewer .viewer__file {
 	height: 100% !important;
+}
+
+/* Hide the modal's file-to-file slideshow chevrons — they competed with our own
+   discrete page chevrons. Book navigation is page-based via the toolbar. */
+#viewer .modal-wrapper .prev,
+#viewer .modal-wrapper .next {
+	display: none !important;
 }
 `, ""]);
 // Exports
@@ -25050,35 +25076,35 @@ var update = add("69ad3352", content, true, {});
 
 /***/ },
 
-/***/ 1692
+/***/ 8321
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(2491);
+var content = __webpack_require__(3074);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("4c7d3893", content, true, {});
+var update = add("60f81c38", content, true, {});
 
 /***/ },
 
-/***/ 4108
+/***/ 9929
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4903);
+var content = __webpack_require__(8966);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("57b2ebdd", content, true, {});
+var update = add("449056ae", content, true, {});
 
 /***/ },
 
@@ -49527,10 +49553,10 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ const IpynbViewer = (component.exports);
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=345e91ba&scoped=true
-var EpubViewervue_type_template_id_345e91ba_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-epub-readout"},[(_vm.chapterLabel)?_c('span',{staticClass:"files-viewers-epub-chap"},[_vm._v(_vm._s(_vm.chapterLabel))]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-pages",attrs:{"title":"Click to switch between page in chapter (j/m) and page in book (i/n)"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.pagesLabel || '…'))]),_vm._v(" "),(_vm.pctLabel)?_c('span',{staticClass:"files-viewers-epub-pct"},[_vm._v(_vm._s(_vm.pctLabel))]):_vm._e()]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=dc15d976&scoped=true
+var EpubViewervue_type_template_id_dc15d976_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-epub-readout"},[(_vm.chapterLabel)?_c('span',{staticClass:"files-viewers-epub-chap"},[_vm._v(_vm._s(_vm.chapterLabel))]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-pages",attrs:{"title":"Click to switch between page in chapter and page in book"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.pagesLabel || '…'))]),_vm._v(" "),(_vm.pctLabel)?_c('span',{staticClass:"files-viewers-epub-pct"},[_vm._v(_vm._s(_vm.pctLabel))]):_vm._e()]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
 }
-var EpubViewervue_type_template_id_345e91ba_scoped_true_staticRenderFns = []
+var EpubViewervue_type_template_id_dc15d976_scoped_true_staticRenderFns = []
 
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
@@ -64072,13 +64098,13 @@ async function inlineCssAssets(css, cssPath, archive) {
 
 ;// ./src/views/EpubViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_EpubViewervue_type_script_lang_js = (EpubViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=345e91ba&prod&scoped=true&lang=css
-var EpubViewervue_type_style_index_0_id_345e91ba_prod_scoped_true_lang_css = __webpack_require__(1692);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=345e91ba&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=dc15d976&prod&scoped=true&lang=css
+var EpubViewervue_type_style_index_0_id_dc15d976_prod_scoped_true_lang_css = __webpack_require__(8321);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=dc15d976&prod&scoped=true&lang=css
 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=345e91ba&prod&lang=css
-var EpubViewervue_type_style_index_1_id_345e91ba_prod_lang_css = __webpack_require__(4108);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=345e91ba&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=dc15d976&prod&lang=css
+var EpubViewervue_type_style_index_1_id_dc15d976_prod_lang_css = __webpack_require__(9929);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=dc15d976&prod&lang=css
 
 ;// ./src/views/EpubViewer.vue
 
@@ -64092,11 +64118,11 @@ var EpubViewervue_type_style_index_1_id_345e91ba_prod_lang_css = __webpack_requi
 
 var EpubViewer_component = normalizeComponent(
   views_EpubViewervue_type_script_lang_js,
-  EpubViewervue_type_template_id_345e91ba_scoped_true_render,
-  EpubViewervue_type_template_id_345e91ba_scoped_true_staticRenderFns,
+  EpubViewervue_type_template_id_dc15d976_scoped_true_render,
+  EpubViewervue_type_template_id_dc15d976_scoped_true_staticRenderFns,
   false,
   null,
-  "345e91ba",
+  "dc15d976",
   null
   
 )

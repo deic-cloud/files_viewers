@@ -30,7 +30,7 @@
 			<span class="files-viewers-epub-readout">
 				<span v-if="chapterLabel" class="files-viewers-epub-chap">{{ chapterLabel }}</span>
 				<button class="files-viewers-epub-pages"
-					title="Click to switch between page in chapter (j/m) and page in book (i/n)"
+					title="Click to switch between page in chapter and page in book"
 					@click="togglePageMode">{{ pagesLabel || '…' }}</button>
 				<span v-if="pctLabel" class="files-viewers-epub-pct">{{ pctLabel }}</span>
 			</span>
@@ -484,6 +484,7 @@ export default {
 	border-radius: 6px;
 	background: transparent;
 	font-size: 13px;
+	font-weight: normal;
 	line-height: 1;
 	/* !important: a bare <button> otherwise takes NC core's non-theme colour. */
 	color: var(--color-main-text, #222) !important;
@@ -492,6 +493,18 @@ export default {
 
 .files-viewers-epub-pages:hover {
 	background: var(--color-background-hover, #ececec);
+}
+
+/* Suppress NC core's blue focus/active button background + glow on our toolbar
+   buttons (clicking the page readout shouldn't flash blue). */
+.files-viewers-epub-ico:focus,
+.files-viewers-epub-ico:focus-visible,
+.files-viewers-epub-ico:active,
+.files-viewers-epub-pages:focus,
+.files-viewers-epub-pages:focus-visible,
+.files-viewers-epub-pages:active {
+	background: transparent !important;
+	box-shadow: none !important;
 }
 
 .files-viewers-epub-pct {
@@ -554,12 +567,24 @@ export default {
 }
 </style>
 
-<!-- NOT scoped: targets the host Viewer modal (outside this component). Make the
-     viewer fill the modal so there's no empty strip below the toolbar — that strip
-     was the modal backdrop, and clicking it accidentally closed the book. -->
+<!-- NOT scoped: targets the host Viewer modal (outside this component). -->
 <style>
+/* The empty strip below the toolbar was the modal-container running full height
+   under the header; clicking it (backdrop) closed the book. Constrain it to the
+   area below the header. */
+#viewer .modal-wrapper .modal-container {
+	height: calc(100% - var(--header-height)) !important;
+}
+
 #viewer .viewer__file-wrapper,
 #viewer .viewer__file {
 	height: 100% !important;
+}
+
+/* Hide the modal's file-to-file slideshow chevrons — they competed with our own
+   discrete page chevrons. Book navigation is page-based via the toolbar. */
+#viewer .modal-wrapper .prev,
+#viewer .modal-wrapper .next {
+	display: none !important;
 }
 </style>
