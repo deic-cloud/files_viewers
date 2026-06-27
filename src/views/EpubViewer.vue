@@ -27,7 +27,9 @@
 				title="Table of contents"
 				@click="tocOpen = !tocOpen">☰</button>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Previous page" @click="prev">‹</button>
-			<span class="files-viewers-epub-loc">{{ locLabel || '…' }}</span>
+			<button class="files-viewers-epub-loc"
+				title="Click to switch between chapter page and book progress"
+				@click="togglePageMode">{{ locLabel || '…' }}</button>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Next page" @click="next">›</button>
 		</div>
 	</div>
@@ -86,6 +88,7 @@ export default {
 			locLabel: '',
 			toc: [],
 			tocOpen: false,
+			pageMode: 'chapter', // 'chapter' | 'book' — toggled by clicking the readout
 		}
 	},
 
@@ -202,6 +205,11 @@ export default {
 			this.rendition.on('relocated', (location) => {
 				this.ready = true
 				this.updateLocation(location)
+				// Remember where the reader is, so re-opening this book resumes here
+				// (localStorage only — no temp files, no DB).
+				if (location && location.start && location.start.cfi) {
+					this.savePosition(location.start.cfi)
+				}
 			})
 
 			this.keyHandler = (e) => {
@@ -220,16 +228,20 @@ export default {
 				.then((nav) => { this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : [] })
 				.catch(() => {})
 
-			await this.rendition.display()
+			// Resume at the last-read page for this book (localStorage). Fall back to
+			// the start (cover) if there's no saved position or the CFI is stale.
+			const savedCfi = this.loadPosition()
+			let opened = false
+			if (savedCfi) {
+				try { await this.rendition.display(savedCfi); opened = true } catch (e) { /* stale CFI */ }
+			}
+			if (!opened) { await this.rendition.display() }
 			this.ready = true
 			this.doneOnce()
 
-			// NOTE: we deliberately do NOT call book.locations.generate() for a
-			// reading-% readout. generate() walks every section (section.load +
-			// section.unload), and unloading the section the rendition is currently
-			// showing blanks the live view — which opened the book on a blank page
-			// and churned through the front matter. It was also what made the viewer
-			// sluggish. The page indicator falls back to in-chapter "i/n".
+			// NOTE: we deliberately do NOT call book.locations.generate() for a precise
+			// book-page count — it walks every section (load + unload), blanks the live
+			// view and is slow. "Book" progress is approximated from spine position.
 		} catch (e) {
 			this.error = 'Could not open e-book: ' + (e && e.message ? e.message : e)
 		} finally {
@@ -267,25 +279,41 @@ export default {
 				this.doneLoading()
 			}
 		},
+		togglePageMode() {
+			this.pageMode = this.pageMode === 'book' ? 'chapter' : 'book'
+			if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+		},
 		updateLocation(location) {
+			this.lastLocation = location
 			const start = location && location.start ? location.start : null
 			if (!start) {
 				return
 			}
-			const parts = []
-			// Rough overall progress from spine position. (A precise page-based %
-			// needs book.locations.generate(), which reloads/unloads every section
-			// and blanks the live view — so we avoid it.)
-			const spine = this.book && this.book.spine
-			const len = spine && (spine.length || (spine.spineItems && spine.spineItems.length))
-			if (len && typeof start.index === 'number') {
-				parts.push(Math.round((start.index / Math.max(1, len - 1)) * 100) + '%')
+			if (this.pageMode === 'book') {
+				// Approximate overall progress from spine position. (A precise book-page
+				// count needs book.locations.generate(), which reloads/unloads every
+				// section, blanks the live view and is slow — so we avoid it.)
+				const spine = this.book && this.book.spine
+				const len = spine && (spine.length || (spine.spineItems && spine.spineItems.length))
+				this.locLabel = (len && typeof start.index === 'number')
+					? ('~' + Math.round((start.index / Math.max(1, len - 1)) * 100) + '% of book')
+					: ''
+			} else {
+				// page within the current chapter
+				this.locLabel = start.displayed
+					? (start.displayed.page + ' / ' + start.displayed.total)
+					: ''
 			}
-			// page within the current chapter
-			if (start.displayed && start.displayed.total) {
-				parts.push(start.displayed.page + '/' + start.displayed.total)
-			}
-			this.locLabel = parts.join(' · ')
+		},
+		// --- last-read position, per book, in localStorage (no temp files / DB) ---
+		storageKey() {
+			return 'files_viewers:epub:' + (this.fileid || this.filename || this.src || '')
+		},
+		loadPosition() {
+			try { return window.localStorage.getItem(this.storageKey()) || null } catch (e) { return null }
+		},
+		savePosition(cfi) {
+			try { window.localStorage.setItem(this.storageKey(), cfi) } catch (e) { /* quota/private mode */ }
 		},
 	},
 }
@@ -337,7 +365,9 @@ export default {
 	border: none;
 	border-radius: 6px;
 	background: transparent;
-	color: var(--color-main-text, #222);
+	/* !important: a bare <button> otherwise inherits NC core's tinted button
+	   colour, which doesn't follow the light/dark theme. */
+	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
 
@@ -362,9 +392,17 @@ export default {
 	min-width: 110px;
 	height: 28px;
 	padding: 0 10px;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
 	font-size: 13px;
 	line-height: 1;
-	color: var(--color-text-maxcontrast, #767676);
+	color: var(--color-text-maxcontrast, #767676) !important;
+	cursor: pointer;
+}
+
+.files-viewers-epub-loc:hover {
+	background: var(--color-background-hover, #ececec);
 }
 
 /* table-of-contents overlay */
@@ -420,5 +458,15 @@ export default {
 .files-viewers-msg {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
+}
+</style>
+
+<!-- NOT scoped: targets the host Viewer modal (outside this component). Make the
+     viewer fill the modal so there's no empty strip below the toolbar — that strip
+     was the modal backdrop, and clicking it accidentally closed the book. -->
+<style>
+#viewer .viewer__file-wrapper,
+#viewer .viewer__file {
+	height: 100% !important;
 }
 </style>
