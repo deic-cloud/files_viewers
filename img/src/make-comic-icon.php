@@ -1,7 +1,7 @@
 <?php
-// .cbz/.cbr file icon: a comic page — black-bordered colour panels with white
-// gutters and a speech bubble — on the same rounded-grey tile as the other
-// file-type icons. Rendered at 2x then downscaled for anti-aliasing.
+// .cbz/.cbr file icon, pop-art style: a red rounded tile with a halftone dot
+// pattern and a white comic "starburst" speech bubble (black outline).
+// Rendered at 2x then downscaled for anti-aliasing.
 
 $outPath = $argv[1] ?? 'comic.png';
 
@@ -12,13 +12,13 @@ imagealphablending($im, false);
 imagefill($im, 0, 0, imagecolorallocatealpha($im, 0, 0, 0, 127));
 imagealphablending($im, true);
 
-$fill   = imagecolorallocate($im, 243, 244, 246); // #f3f4f6 tile
-$border = imagecolorallocate($im, 207, 211, 216); // #cfd3d8
-$page   = imagecolorallocate($im, 255, 255, 255);
-$ink    = imagecolorallocate($im, 34, 34, 34);     // panel outlines
-$blue   = imagecolorallocate($im, 58, 110, 165);
-$orange = imagecolorallocate($im, 232, 99, 58);
-$green  = imagecolorallocate($im, 58, 165, 95);
+$red    = imagecolorallocate($im, 226, 64, 47);    // #e2402f base
+$dot    = imagecolorallocate($im, 199, 50, 38);    // #c73226 halftone dots
+$white  = imagecolorallocate($im, 255, 255, 255);
+$ink    = imagecolorallocate($im, 26, 26, 26);     // #1a1a1a outline
+
+$m = 10; $r = 60;
+$x1 = $m; $y1 = $m; $x2 = $S - $m; $y2 = $S - $m;
 
 function fillRoundedRect($im, $x1, $y1, $x2, $y2, $r, $color) {
 	imagefilledrectangle($im, $x1 + $r, $y1, $x2 - $r, $y2, $color);
@@ -29,33 +29,54 @@ function fillRoundedRect($im, $x1, $y1, $x2, $y2, $r, $color) {
 	imagefilledellipse($im, $x2 - $r, $y2 - $r, $r * 2, $r * 2, $color);
 }
 
-function panel($im, $x1, $y1, $x2, $y2, $color, $ink) {
-	imagefilledrectangle($im, $x1, $y1, $x2, $y2, $color);
-	imagesetthickness($im, 6);
-	imagerectangle($im, $x1, $y1, $x2, $y2, $ink);
-	imagesetthickness($im, 1);
+// is (x,y) inside the rounded rect (so dots stay within the tile)?
+function insideRounded($x, $y, $x1, $y1, $x2, $y2, $r) {
+	if ($x >= $x1 + $r && $x <= $x2 - $r) { return ($y >= $y1 && $y <= $y2); }
+	if ($y >= $y1 + $r && $y <= $y2 - $r) { return ($x >= $x1 && $x <= $x2); }
+	$cx = ($x < $x1 + $r) ? $x1 + $r : $x2 - $r;
+	$cy = ($y < $y1 + $r) ? $y1 + $r : $y2 - $r;
+	return (($x - $cx) ** 2 + ($y - $cy) ** 2) <= $r * $r;
 }
 
-// tile + border
-$m = 10; $r = 60; $bw = 5;
-fillRoundedRect($im, $m, $m, $S - $m, $S - $m, $r, $border);
-fillRoundedRect($im, $m + $bw, $m + $bw, $S - $m - $bw, $S - $m - $bw, $r - $bw, $fill);
+// red base
+fillRoundedRect($im, $x1, $y1, $x2, $y2, $r, $red);
 
-// the comic page
-imagefilledrectangle($im, 138, 92, 374, 420, $page);
+// halftone dots (offset rows), clipped to the rounded tile
+$step = 40; $dr = 8; $row = 0;
+for ($y = $y1 + 20; $y <= $y2 - 20; $y += $step) {
+	$xoff = ($row % 2) ? $step / 2 : 0;
+	for ($x = $x1 + 20 + $xoff; $x <= $x2 - 20; $x += $step) {
+		if (insideRounded($x, $y, $x1, $y1, $x2, $y2, $r - $dr)) {
+			imagefilledellipse($im, (int)$x, (int)$y, $dr * 2, $dr * 2, $dot);
+		}
+	}
+	$row++;
+}
 
-// panels (white gutters = the page showing between them)
-panel($im, 158, 112, 354, 236, $blue, $ink);          // top: wide
-panel($im, 158, 256, 250, 400, $orange, $ink);        // bottom-left
-panel($im, 262, 256, 354, 400, $green, $ink);         // bottom-right
-
-// speech bubble in the top panel
-$bx = 256; $by = 168; $rx = 62; $ry = 34;
-imagefilledellipse($im, $bx, $by, $rx * 2, $ry * 2, $page);
-imagefilledpolygon($im, [$bx - 28, $by + 18, $bx - 6, $by + 18, $bx - 40, $by + 56], $page);
-imagesetthickness($im, 5);
-imageellipse($im, $bx, $by, $rx * 2, $ry * 2, $ink);
+// white comic starburst (jagged explosion) with black outline
+$cx = 256; $cy = 256;
+$N = 13; $Ro = 168; $Ri = 116;
+$pts = [];
+for ($i = 0; $i < $N * 2; $i++) {
+	$ang = M_PI * $i / $N - M_PI / 2;
+	$rad = ($i % 2 === 0) ? $Ro : $Ri;
+	$jit = ((($i * 37) % 19) - 9) * 1.4; // deterministic jitter for a hand-drawn feel
+	$pts[] = (int)round($cx + cos($ang) * ($rad + $jit));
+	$pts[] = (int)round($cy + sin($ang) * ($rad + $jit));
+}
+imagefilledpolygon($im, $pts, $white);
+imagesetthickness($im, 10);
+imagepolygon($im, $pts, $ink);
 imagesetthickness($im, 1);
+
+// a bold "!" in the burst (a comic staple; reads even when small)
+$font = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+if (is_file($font)) {
+	$box = imagettfbbox(150, 0, $font, '!');
+	$tw = $box[2] - $box[0];
+	$th = $box[1] - $box[7];
+	imagettftext($im, 150, 0, (int)($cx - $tw / 2), (int)($cy + $th / 2), $ink, $font, '!');
+}
 
 $final = imagescale($im, 256, 256, IMG_BICUBIC);
 imagesavealpha($final, true);
