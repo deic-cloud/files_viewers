@@ -181,9 +181,8 @@ export default {
 				width: '100%',
 				height: '100%',
 				flow: 'paginated',
-				// single page: 'auto' pairs the cover with a blank page in a two-page
-				// spread and can land the initial view on the blank one.
-				spread: 'none',
+				// two-page spread on wide windows, auto-collapsing to one on narrow.
+				spread: 'auto',
 				// sandbox the section iframes: the e-book can't run scripts
 				allowScriptedContent: false,
 				// NC's CSP is default-src 'none' with no frame-src, which blocks the
@@ -239,18 +238,12 @@ export default {
 			this.ready = true
 			this.doneOnce()
 
-			// Reading-progress locations are expensive (every section is parsed),
-			// which would otherwise block the first page from painting and leave a
-			// blank flash. Defer it so the book shows immediately.
-			this.locTimer = window.setTimeout(() => {
-				this.book.ready
-					.then(() => this.book.locations.generate(1024))
-					.then(() => {
-						this.locationsReady = true
-						if (this.lastLocation) { this.updateLocation(this.lastLocation) }
-					})
-					.catch(() => {})
-			}, 1500)
+			// NOTE: we deliberately do NOT call book.locations.generate() for a
+			// reading-% readout. generate() walks every section (section.load +
+			// section.unload), and unloading the section the rendition is currently
+			// showing blanks the live view — which opened the book on a blank page
+			// and churned through the front matter. It was also what made the viewer
+			// sluggish. The page indicator falls back to in-chapter "i/n".
 		} catch (e) {
 			this.error = 'Could not open e-book: ' + (e && e.message ? e.message : e)
 		} finally {
