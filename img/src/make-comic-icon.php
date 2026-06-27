@@ -73,8 +73,9 @@ imagesetthickness($im, 1);
 $font = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 if (is_file($font)) {
 	$box = imagettfbbox(150, 0, $font, '!');
-	// centre on both axes using the full glyph bbox (accounts for side bearing)
-	$tx = (int) round($cx - ($box[0] + $box[2]) / 2);
+	// Sit the "!" in the star's visual centre, which reads a little right of the
+	// tile centre — so nudge right rather than tile-centring it.
+	$tx = (int) round($cx - ($box[0] + $box[2]) / 2) + 16;
 	$ty = (int) round($cy - ($box[1] + $box[7]) / 2);
 	imagettftext($im, 150, 0, $tx, $ty, $ink, $font, '!');
 }
