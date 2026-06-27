@@ -46,7 +46,7 @@ $step = 40; $dr = 8; $row = 0;
 for ($y = $y1 + 20; $y <= $y2 - 20; $y += $step) {
 	$xoff = ($row % 2) ? $step / 2 : 0;
 	for ($x = $x1 + 20 + $xoff; $x <= $x2 - 20; $x += $step) {
-		if (insideRounded($x, $y, $x1, $y1, $x2, $y2, $r - $dr)) {
+		if (insideRounded($x, $y, $x1 + $dr + 2, $y1 + $dr + 2, $x2 - $dr - 2, $y2 - $dr - 2, $r - $dr - 2)) {
 			imagefilledellipse($im, (int)$x, (int)$y, $dr * 2, $dr * 2, $dot);
 		}
 	}
@@ -55,7 +55,7 @@ for ($y = $y1 + 20; $y <= $y2 - 20; $y += $step) {
 
 // white comic starburst (jagged explosion) with black outline
 $cx = 256; $cy = 256;
-$N = 13; $Ro = 168; $Ri = 116;
+$N = 10; $Ro = 168; $Ri = 116;
 $pts = [];
 for ($i = 0; $i < $N * 2; $i++) {
 	$ang = M_PI * $i / $N - M_PI / 2;
@@ -73,9 +73,10 @@ imagesetthickness($im, 1);
 $font = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 if (is_file($font)) {
 	$box = imagettfbbox(150, 0, $font, '!');
-	$tw = $box[2] - $box[0];
-	$th = $box[1] - $box[7];
-	imagettftext($im, 150, 0, (int)($cx - $tw / 2), (int)($cy + $th / 2), $ink, $font, '!');
+	// centre on both axes using the full glyph bbox (accounts for side bearing)
+	$tx = (int) round($cx - ($box[0] + $box[2]) / 2);
+	$ty = (int) round($cy - ($box[1] + $box[7]) / 2);
+	imagettftext($im, 150, 0, $tx, $ty, $ink, $font, '!');
 }
 
 $final = imagescale($im, 256, 256, IMG_BICUBIC);
