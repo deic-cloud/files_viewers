@@ -27,9 +27,13 @@
 				title="Table of contents"
 				@click="tocOpen = !tocOpen">☰</button>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Previous page" @click="prev">‹</button>
-			<button class="files-viewers-epub-loc"
-				title="Click to switch between chapter page and book progress"
-				@click="togglePageMode">{{ locLabel || '…' }}</button>
+			<span class="files-viewers-epub-readout">
+				<span v-if="chapterLabel" class="files-viewers-epub-chap">{{ chapterLabel }}</span>
+				<button class="files-viewers-epub-pages"
+					title="Click to switch between page in chapter (j/m) and page in book (i/n)"
+					@click="togglePageMode">{{ pagesLabel || '…' }}</button>
+				<span v-if="pctLabel" class="files-viewers-epub-pct">{{ pctLabel }}</span>
+			</span>
 			<button class="files-viewers-epub-ico" :disabled="!ready" title="Next page" @click="next">›</button>
 		</div>
 	</div>
@@ -85,10 +89,13 @@ export default {
 			error: '',
 			ready: false,
 			done: false,
-			locLabel: '',
+			chapterLabel: '',
+			pagesLabel: '',
+			pctLabel: '',
 			toc: [],
 			tocOpen: false,
-			pageMode: 'chapter', // 'chapter' | 'book' — toggled by clicking the readout
+			pageMode: 'chapter', // 'chapter' (j/m) | 'book' (i/n) — toggled by clicking j/m
+			locationsReady: false,
 		}
 	},
 
@@ -141,6 +148,10 @@ export default {
 			// URIs (allowed by font-src/img-src). CSP-clean, keeps full styling +
 			// embedded fonts. Falls back to dropping a link that can't be resolved.
 			this.book.spine.hooks.content.register(async (doc, section) => {
+				// Skip the heavy per-section work while the locations page-map is being
+				// generated in the background — generate() only measures text, so font/CSS
+				// inlining ×(all sections) would just be slow. Applies to rendered sections.
+				if (this._generating) { return }
 				try {
 					// <base href>: blocked by base-uri 'none' (vestigial here).
 					doc.querySelectorAll('base').forEach((b) => b.remove())
@@ -191,10 +202,19 @@ export default {
 				// Standards mode. NC's CSP allows it (no frame-src violation observed).
 			})
 
-			// Fit images (notably full-page covers) to one page. In Standards mode the
-			// definite vh cap + height:auto override the book's fragile inline height
-			// without collapsing the image (injected <style>, allowed by 'unsafe-inline').
+			// Theme the book to match the NC UI: in dark mode the page becomes
+			// light-on-dark, in light mode dark-on-light. The section iframe is a
+			// separate document and can't see NC's CSS variables, so read the concrete
+			// computed colours from the host page and inject them. Plus fit images
+			// (covers) to one page (definite vh cap + height:auto avoids the collapse).
+			const cs = getComputedStyle(document.body)
+			const ncBg = (cs.getPropertyValue('--color-main-background') || '').trim() || '#ffffff'
+			const ncFg = (cs.getPropertyValue('--color-main-text') || '').trim() || '#1a1a1a'
 			this.rendition.themes.default({
+				body: {
+					background: ncBg + ' !important',
+					color: ncFg + ' !important',
+				},
 				'img, svg': {
 					height: 'auto !important',
 					'max-width': '100% !important',
@@ -225,7 +245,10 @@ export default {
 
 			// Table of contents for quick navigation.
 			this.book.loaded.navigation
-				.then((nav) => { this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : [] })
+				.then((nav) => {
+					this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : []
+					this._chapterMap = this.buildChapterMap(this.toc)
+				})
 				.catch(() => {})
 
 			// Resume at the last-read page for this book (localStorage). Fall back to
@@ -279,9 +302,41 @@ export default {
 				this.doneLoading()
 			}
 		},
+		buildChapterMap(toc) {
+			// flat map: section basename -> chapter title, for the readout label
+			const map = {}
+			const walk = (items) => {
+				for (const it of (items || [])) {
+					if (it && it.href) {
+						const key = it.href.split('#')[0].split('/').pop()
+						if (key && !(key in map)) { map[key] = String(it.label || '').trim() }
+					}
+					if (it && it.subitems) { walk(it.subitems) }
+				}
+			}
+			walk(toc)
+			return map
+		},
 		togglePageMode() {
 			this.pageMode = this.pageMode === 'book' ? 'chapter' : 'book'
+			// Book-page counts need the locations page-map. Build it ON DEMAND (only
+			// when the reader first asks for book pages) and in the background — never
+			// on open — so normal reading stays fast and unaffected.
+			if (this.pageMode === 'book' && !this.locationsReady && !this._generating) {
+				this.generateLocations()
+			}
 			if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+		},
+		generateLocations() {
+			this._generating = true
+			this.book.ready
+				.then(() => this.book.locations.generate(1600))
+				.then(() => {
+					this._generating = false
+					this.locationsReady = true
+					if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+				})
+				.catch(() => { this._generating = false })
 		},
 		updateLocation(location) {
 			this.lastLocation = location
@@ -289,21 +344,43 @@ export default {
 			if (!start) {
 				return
 			}
+			// chapter title (if the TOC has one for this section)
+			const base = start.href ? start.href.split('#')[0].split('/').pop() : ''
+			this.chapterLabel = (this._chapterMap && this._chapterMap[base]) || ''
+
+			// j/m — page within the current chapter (always available)
+			const j = start.displayed ? start.displayed.page : null
+			const m = start.displayed ? start.displayed.total : null
+
 			if (this.pageMode === 'book') {
-				// Approximate overall progress from spine position. (A precise book-page
-				// count needs book.locations.generate(), which reloads/unloads every
-				// section, blanks the live view and is slow — so we avoid it.)
+				if (this.locationsReady) {
+					try {
+						const i = (this.book.locations.locationFromCfi(start.cfi) || 0) + 1
+						const n = this.book.locations.length()
+						this.pagesLabel = i + '/' + n
+					} catch (e) { this.pagesLabel = (j && m) ? (j + '/' + m) : '' }
+				} else {
+					this.pagesLabel = '…' // page-map still being built
+				}
+			} else {
+				this.pagesLabel = (j && m) ? (j + '/' + m) : ''
+			}
+
+			// x% — exact once the page-map exists, otherwise a spine-based estimate
+			let pct = null
+			let approx = false
+			if (this.locationsReady) {
+				try { pct = Math.round(this.book.locations.percentageFromCfi(start.cfi) * 100) } catch (e) { pct = null }
+			}
+			if (pct === null || isNaN(pct)) {
 				const spine = this.book && this.book.spine
 				const len = spine && (spine.length || (spine.spineItems && spine.spineItems.length))
-				this.locLabel = (len && typeof start.index === 'number')
-					? ('~' + Math.round((start.index / Math.max(1, len - 1)) * 100) + '% of book')
-					: ''
-			} else {
-				// page within the current chapter
-				this.locLabel = start.displayed
-					? (start.displayed.page + ' / ' + start.displayed.total)
-					: ''
+				if (len && typeof start.index === 'number') {
+					pct = Math.round((start.index / Math.max(1, len - 1)) * 100)
+					approx = true
+				}
 			}
+			this.pctLabel = (pct === null || isNaN(pct)) ? '' : ((approx ? '~' : '') + pct + '%')
 		},
 		// --- last-read position, per book, in localStorage (no temp files / DB) ---
 		storageKey() {
@@ -327,17 +404,16 @@ export default {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	/* The reading surface stays a white "page" regardless of the NC theme — the
-	   book's pages are transparent and its text is dark, so a themed (dark) area
-	   would show through as a black page with invisible text. The controls below
-	   still follow the NC theme. */
-	background: #fff;
+	/* Follow the NC theme. The book's <body> is given the same concrete colours
+	   via rendition.themes (see mounted), so the page and this surround match —
+	   light-on-dark in dark mode, dark-on-light in light mode. */
+	background: var(--color-main-background, #fff);
 }
 
 .files-viewers-epub-area {
 	flex: 1 1 auto;
 	min-height: 0;
-	background: #fff;
+	background: var(--color-main-background, #fff);
 }
 
 /* compact control bar, themed to match the NC UI */
@@ -385,24 +461,41 @@ export default {
 	background: var(--color-background-dark, #dcdcdc);
 }
 
-.files-viewers-epub-loc {
+.files-viewers-epub-readout {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	min-width: 110px;
+	gap: 8px;
+	max-width: 60vw;
+	font-size: 13px;
+	color: var(--color-text-maxcontrast, #767676);
+}
+
+.files-viewers-epub-chap {
+	max-width: 38vw;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.files-viewers-epub-pages {
 	height: 28px;
-	padding: 0 10px;
+	padding: 2px 8px;
 	border: none;
 	border-radius: 6px;
 	background: transparent;
 	font-size: 13px;
 	line-height: 1;
-	color: var(--color-text-maxcontrast, #767676) !important;
+	/* !important: a bare <button> otherwise takes NC core's non-theme colour. */
+	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
 
-.files-viewers-epub-loc:hover {
+.files-viewers-epub-pages:hover {
 	background: var(--color-background-hover, #ececec);
+}
+
+.files-viewers-epub-pct {
+	color: var(--color-text-maxcontrast, #767676);
 }
 
 /* table-of-contents overlay */

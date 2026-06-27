@@ -5268,7 +5268,7 @@ code.hljs {
 
 /***/ },
 
-/***/ 3709
+/***/ 2491
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5283,27 +5283,26 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-epub[data-v-ac54006a] {
+.files-viewers-epub[data-v-345e91ba] {
 	position: relative;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	/* The reading surface stays a white "page" regardless of the NC theme — the
-	   book's pages are transparent and its text is dark, so a themed (dark) area
-	   would show through as a black page with invisible text. The controls below
-	   still follow the NC theme. */
-	background: #fff;
+	/* Follow the NC theme. The book's <body> is given the same concrete colours
+	   via rendition.themes (see mounted), so the page and this surround match —
+	   light-on-dark in dark mode, dark-on-light in light mode. */
+	background: var(--color-main-background, #fff);
 }
-.files-viewers-epub-area[data-v-ac54006a] {
+.files-viewers-epub-area[data-v-345e91ba] {
 	flex: 1 1 auto;
 	min-height: 0;
-	background: #fff;
+	background: var(--color-main-background, #fff);
 }
 
 /* compact control bar, themed to match the NC UI */
-.files-viewers-epub-bar[data-v-ac54006a] {
+.files-viewers-epub-bar[data-v-345e91ba] {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -5315,7 +5314,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-top: 1px solid var(--color-border, #e1e4e8);
 	color: var(--color-main-text, #222);
 }
-.files-viewers-epub-ico[data-v-ac54006a] {
+.files-viewers-epub-ico[data-v-345e91ba] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -5331,44 +5330,58 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-ico[data-v-ac54006a]:hover {
+.files-viewers-epub-ico[data-v-345e91ba]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-ico[data-v-ac54006a]:disabled {
+.files-viewers-epub-ico[data-v-345e91ba]:disabled {
 	opacity: 0.35;
 	cursor: default;
 	background: transparent;
 }
-.files-viewers-epub-ico.active[data-v-ac54006a] {
+.files-viewers-epub-ico.active[data-v-345e91ba] {
 	background: var(--color-background-dark, #dcdcdc);
 }
-.files-viewers-epub-loc[data-v-ac54006a] {
+.files-viewers-epub-readout[data-v-345e91ba] {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	min-width: 110px;
+	gap: 8px;
+	max-width: 60vw;
+	font-size: 13px;
+	color: var(--color-text-maxcontrast, #767676);
+}
+.files-viewers-epub-chap[data-v-345e91ba] {
+	max-width: 38vw;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.files-viewers-epub-pages[data-v-345e91ba] {
 	height: 28px;
-	padding: 0 10px;
+	padding: 2px 8px;
 	border: none;
 	border-radius: 6px;
 	background: transparent;
 	font-size: 13px;
 	line-height: 1;
-	color: var(--color-text-maxcontrast, #767676) !important;
+	/* !important: a bare <button> otherwise takes NC core's non-theme colour. */
+	color: var(--color-main-text, #222) !important;
 	cursor: pointer;
 }
-.files-viewers-epub-loc[data-v-ac54006a]:hover {
+.files-viewers-epub-pages[data-v-345e91ba]:hover {
 	background: var(--color-background-hover, #ececec);
+}
+.files-viewers-epub-pct[data-v-345e91ba] {
+	color: var(--color-text-maxcontrast, #767676);
 }
 
 /* table-of-contents overlay */
-.files-viewers-epub-tocbg[data-v-ac54006a] {
+.files-viewers-epub-tocbg[data-v-345e91ba] {
 	position: absolute;
 	inset: 0;
 	z-index: 5;
 	background: rgba(0, 0, 0, 0.2);
 }
-.files-viewers-epub-toc[data-v-ac54006a] {
+.files-viewers-epub-toc[data-v-345e91ba] {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -5381,12 +5394,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	border-right: 1px solid var(--color-border, #e1e4e8);
 	box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
 }
-.files-viewers-epub-toc ul[data-v-ac54006a] {
+.files-viewers-epub-toc ul[data-v-345e91ba] {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-.files-viewers-epub-toc-item[data-v-ac54006a] {
+.files-viewers-epub-toc-item[data-v-345e91ba] {
 	display: block;
 	width: 100%;
 	text-align: left;
@@ -5397,15 +5410,15 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	font-size: 14px;
 	cursor: pointer;
 }
-.files-viewers-epub-toc-item[data-v-ac54006a]:hover {
+.files-viewers-epub-toc-item[data-v-345e91ba]:hover {
 	background: var(--color-background-hover, #ececec);
 }
-.files-viewers-epub-toc-item.is-sub[data-v-ac54006a] {
+.files-viewers-epub-toc-item.is-sub[data-v-345e91ba] {
 	padding-left: 32px;
 	font-size: 13px;
 	color: var(--color-text-maxcontrast, #767676);
 }
-.files-viewers-msg[data-v-ac54006a] {
+.files-viewers-msg[data-v-345e91ba] {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
 }
@@ -5420,7 +5433,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 5917
+/***/ 4903
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25037,35 +25050,35 @@ var update = add("69ad3352", content, true, {});
 
 /***/ },
 
-/***/ 6566
+/***/ 1692
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(3709);
+var content = __webpack_require__(2491);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("b548ffa2", content, true, {});
+var update = add("4c7d3893", content, true, {});
 
 /***/ },
 
-/***/ 9146
+/***/ 4108
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5917);
+var content = __webpack_require__(4903);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("7aeabd79", content, true, {});
+var update = add("57b2ebdd", content, true, {});
 
 /***/ },
 
@@ -49514,10 +49527,10 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ const IpynbViewer = (component.exports);
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=ac54006a&scoped=true
-var EpubViewervue_type_template_id_ac54006a_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-loc",attrs:{"title":"Click to switch between chapter page and book progress"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.locLabel || '…'))]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=template&id=345e91ba&scoped=true
+var EpubViewervue_type_template_id_345e91ba_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-epub"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"area",staticClass:"files-viewers-epub-area"}),_vm._v(" "),(_vm.tocOpen)?_c('div',{staticClass:"files-viewers-epub-tocbg",on:{"click":function($event){if($event.target !== $event.currentTarget)return null;_vm.tocOpen = false}}},[_c('nav',{staticClass:"files-viewers-epub-toc"},[_c('ul',_vm._l((_vm.toc),function(item,i){return _c('li',{key:i},[_c('button',{staticClass:"files-viewers-epub-toc-item",on:{"click":function($event){return _vm.goTo(item.href)}}},[_vm._v(_vm._s(_vm.label(item)))]),_vm._v(" "),(item.subitems && item.subitems.length)?_c('ul',_vm._l((item.subitems),function(sub,j){return _c('li',{key:j},[_c('button',{staticClass:"files-viewers-epub-toc-item is-sub",on:{"click":function($event){return _vm.goTo(sub.href)}}},[_vm._v(_vm._s(_vm.label(sub)))])])}),0):_vm._e()])}),0)])]):_vm._e(),_vm._v(" "),(!_vm.error)?_c('div',{staticClass:"files-viewers-epub-bar"},[(_vm.toc.length)?_c('button',{staticClass:"files-viewers-epub-ico",class:{ active: _vm.tocOpen },attrs:{"title":"Table of contents"},on:{"click":function($event){_vm.tocOpen = !_vm.tocOpen}}},[_vm._v("☰")]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Previous page"},on:{"click":_vm.prev}},[_vm._v("‹")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-epub-readout"},[(_vm.chapterLabel)?_c('span',{staticClass:"files-viewers-epub-chap"},[_vm._v(_vm._s(_vm.chapterLabel))]):_vm._e(),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-pages",attrs:{"title":"Click to switch between page in chapter (j/m) and page in book (i/n)"},on:{"click":_vm.togglePageMode}},[_vm._v(_vm._s(_vm.pagesLabel || '…'))]),_vm._v(" "),(_vm.pctLabel)?_c('span',{staticClass:"files-viewers-epub-pct"},[_vm._v(_vm._s(_vm.pctLabel))]):_vm._e()]),_vm._v(" "),_c('button',{staticClass:"files-viewers-epub-ico",attrs:{"disabled":!_vm.ready,"title":"Next page"},on:{"click":_vm.next}},[_vm._v("›")])]):_vm._e()])
 }
-var EpubViewervue_type_template_id_ac54006a_scoped_true_staticRenderFns = []
+var EpubViewervue_type_template_id_345e91ba_scoped_true_staticRenderFns = []
 
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
@@ -63751,10 +63764,13 @@ async function inlineCssAssets(css, cssPath, archive) {
 			error: '',
 			ready: false,
 			done: false,
-			locLabel: '',
+			chapterLabel: '',
+			pagesLabel: '',
+			pctLabel: '',
 			toc: [],
 			tocOpen: false,
-			pageMode: 'chapter', // 'chapter' | 'book' — toggled by clicking the readout
+			pageMode: 'chapter', // 'chapter' (j/m) | 'book' (i/n) — toggled by clicking j/m
+			locationsReady: false,
 		}
 	},
 
@@ -63807,6 +63823,10 @@ async function inlineCssAssets(css, cssPath, archive) {
 			// URIs (allowed by font-src/img-src). CSP-clean, keeps full styling +
 			// embedded fonts. Falls back to dropping a link that can't be resolved.
 			this.book.spine.hooks.content.register(async (doc, section) => {
+				// Skip the heavy per-section work while the locations page-map is being
+				// generated in the background — generate() only measures text, so font/CSS
+				// inlining ×(all sections) would just be slow. Applies to rendered sections.
+				if (this._generating) { return }
 				try {
 					// <base href>: blocked by base-uri 'none' (vestigial here).
 					doc.querySelectorAll('base').forEach((b) => b.remove())
@@ -63857,10 +63877,19 @@ async function inlineCssAssets(css, cssPath, archive) {
 				// Standards mode. NC's CSP allows it (no frame-src violation observed).
 			})
 
-			// Fit images (notably full-page covers) to one page. In Standards mode the
-			// definite vh cap + height:auto override the book's fragile inline height
-			// without collapsing the image (injected <style>, allowed by 'unsafe-inline').
+			// Theme the book to match the NC UI: in dark mode the page becomes
+			// light-on-dark, in light mode dark-on-light. The section iframe is a
+			// separate document and can't see NC's CSS variables, so read the concrete
+			// computed colours from the host page and inject them. Plus fit images
+			// (covers) to one page (definite vh cap + height:auto avoids the collapse).
+			const cs = getComputedStyle(document.body)
+			const ncBg = (cs.getPropertyValue('--color-main-background') || '').trim() || '#ffffff'
+			const ncFg = (cs.getPropertyValue('--color-main-text') || '').trim() || '#1a1a1a'
 			this.rendition.themes.default({
+				body: {
+					background: ncBg + ' !important',
+					color: ncFg + ' !important',
+				},
 				'img, svg': {
 					height: 'auto !important',
 					'max-width': '100% !important',
@@ -63891,7 +63920,10 @@ async function inlineCssAssets(css, cssPath, archive) {
 
 			// Table of contents for quick navigation.
 			this.book.loaded.navigation
-				.then((nav) => { this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : [] })
+				.then((nav) => {
+					this.toc = (nav && Array.isArray(nav.toc)) ? nav.toc : []
+					this._chapterMap = this.buildChapterMap(this.toc)
+				})
 				.catch(() => {})
 
 			// Resume at the last-read page for this book (localStorage). Fall back to
@@ -63945,9 +63977,41 @@ async function inlineCssAssets(css, cssPath, archive) {
 				this.doneLoading()
 			}
 		},
+		buildChapterMap(toc) {
+			// flat map: section basename -> chapter title, for the readout label
+			const map = {}
+			const walk = (items) => {
+				for (const it of (items || [])) {
+					if (it && it.href) {
+						const key = it.href.split('#')[0].split('/').pop()
+						if (key && !(key in map)) { map[key] = String(it.label || '').trim() }
+					}
+					if (it && it.subitems) { walk(it.subitems) }
+				}
+			}
+			walk(toc)
+			return map
+		},
 		togglePageMode() {
 			this.pageMode = this.pageMode === 'book' ? 'chapter' : 'book'
+			// Book-page counts need the locations page-map. Build it ON DEMAND (only
+			// when the reader first asks for book pages) and in the background — never
+			// on open — so normal reading stays fast and unaffected.
+			if (this.pageMode === 'book' && !this.locationsReady && !this._generating) {
+				this.generateLocations()
+			}
 			if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+		},
+		generateLocations() {
+			this._generating = true
+			this.book.ready
+				.then(() => this.book.locations.generate(1600))
+				.then(() => {
+					this._generating = false
+					this.locationsReady = true
+					if (this.lastLocation) { this.updateLocation(this.lastLocation) }
+				})
+				.catch(() => { this._generating = false })
 		},
 		updateLocation(location) {
 			this.lastLocation = location
@@ -63955,21 +64019,43 @@ async function inlineCssAssets(css, cssPath, archive) {
 			if (!start) {
 				return
 			}
+			// chapter title (if the TOC has one for this section)
+			const base = start.href ? start.href.split('#')[0].split('/').pop() : ''
+			this.chapterLabel = (this._chapterMap && this._chapterMap[base]) || ''
+
+			// j/m — page within the current chapter (always available)
+			const j = start.displayed ? start.displayed.page : null
+			const m = start.displayed ? start.displayed.total : null
+
 			if (this.pageMode === 'book') {
-				// Approximate overall progress from spine position. (A precise book-page
-				// count needs book.locations.generate(), which reloads/unloads every
-				// section, blanks the live view and is slow — so we avoid it.)
+				if (this.locationsReady) {
+					try {
+						const i = (this.book.locations.locationFromCfi(start.cfi) || 0) + 1
+						const n = this.book.locations.length()
+						this.pagesLabel = i + '/' + n
+					} catch (e) { this.pagesLabel = (j && m) ? (j + '/' + m) : '' }
+				} else {
+					this.pagesLabel = '…' // page-map still being built
+				}
+			} else {
+				this.pagesLabel = (j && m) ? (j + '/' + m) : ''
+			}
+
+			// x% — exact once the page-map exists, otherwise a spine-based estimate
+			let pct = null
+			let approx = false
+			if (this.locationsReady) {
+				try { pct = Math.round(this.book.locations.percentageFromCfi(start.cfi) * 100) } catch (e) { pct = null }
+			}
+			if (pct === null || isNaN(pct)) {
 				const spine = this.book && this.book.spine
 				const len = spine && (spine.length || (spine.spineItems && spine.spineItems.length))
-				this.locLabel = (len && typeof start.index === 'number')
-					? ('~' + Math.round((start.index / Math.max(1, len - 1)) * 100) + '% of book')
-					: ''
-			} else {
-				// page within the current chapter
-				this.locLabel = start.displayed
-					? (start.displayed.page + ' / ' + start.displayed.total)
-					: ''
+				if (len && typeof start.index === 'number') {
+					pct = Math.round((start.index / Math.max(1, len - 1)) * 100)
+					approx = true
+				}
 			}
+			this.pctLabel = (pct === null || isNaN(pct)) ? '' : ((approx ? '~' : '') + pct + '%')
 		},
 		// --- last-read position, per book, in localStorage (no temp files / DB) ---
 		storageKey() {
@@ -63986,13 +64072,13 @@ async function inlineCssAssets(css, cssPath, archive) {
 
 ;// ./src/views/EpubViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_EpubViewervue_type_script_lang_js = (EpubViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=ac54006a&prod&scoped=true&lang=css
-var EpubViewervue_type_style_index_0_id_ac54006a_prod_scoped_true_lang_css = __webpack_require__(6566);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=ac54006a&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=0&id=345e91ba&prod&scoped=true&lang=css
+var EpubViewervue_type_style_index_0_id_345e91ba_prod_scoped_true_lang_css = __webpack_require__(1692);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=0&id=345e91ba&prod&scoped=true&lang=css
 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=ac54006a&prod&lang=css
-var EpubViewervue_type_style_index_1_id_ac54006a_prod_lang_css = __webpack_require__(9146);
-;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=ac54006a&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/EpubViewer.vue?vue&type=style&index=1&id=345e91ba&prod&lang=css
+var EpubViewervue_type_style_index_1_id_345e91ba_prod_lang_css = __webpack_require__(4108);
+;// ./src/views/EpubViewer.vue?vue&type=style&index=1&id=345e91ba&prod&lang=css
 
 ;// ./src/views/EpubViewer.vue
 
@@ -64006,11 +64092,11 @@ var EpubViewervue_type_style_index_1_id_ac54006a_prod_lang_css = __webpack_requi
 
 var EpubViewer_component = normalizeComponent(
   views_EpubViewervue_type_script_lang_js,
-  EpubViewervue_type_template_id_ac54006a_scoped_true_render,
-  EpubViewervue_type_template_id_ac54006a_scoped_true_staticRenderFns,
+  EpubViewervue_type_template_id_345e91ba_scoped_true_render,
+  EpubViewervue_type_template_id_345e91ba_scoped_true_staticRenderFns,
   false,
   null,
-  "ac54006a",
+  "345e91ba",
   null
   
 )
