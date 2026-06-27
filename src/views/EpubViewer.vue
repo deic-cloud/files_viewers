@@ -533,9 +533,9 @@ export default {
 	width: 320px;
 	max-width: 80%;
 	overflow-y: auto;
-	/* frosted, semi-transparent panel so the book shows through behind it */
+	/* semi-transparent so the book shows through behind the panel */
 	background: var(--color-main-background, #fff);
-	background: color-mix(in srgb, var(--color-main-background, #fff) 85%, transparent);
+	opacity: 0.77;
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
 	border-right: 1px solid var(--color-border, #e1e4e8);
