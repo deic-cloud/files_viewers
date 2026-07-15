@@ -5777,6 +5777,126 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
+/***/ 5049
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1601);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.files-viewers-muse[data-v-1098cbc6] {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background: var(--color-main-background, #fff);
+}
+.files-viewers-muse-stage[data-v-1098cbc6] {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: auto;
+	/* a light backdrop so the white score page stands out */
+	background: var(--color-background-dark, #f0f0f0);
+}
+
+/* fit the whole page within the viewport */
+.files-viewers-muse-stage.fit-height .files-viewers-muse-img[data-v-1098cbc6] {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+/* fill the width and scroll down the page */
+.files-viewers-muse-stage.fit-width[data-v-1098cbc6] {
+	align-items: flex-start;
+}
+.files-viewers-muse-stage.fit-width .files-viewers-muse-img[data-v-1098cbc6] {
+	width: 100%;
+	height: auto;
+}
+.files-viewers-muse-img[data-v-1098cbc6] {
+	background: #fff;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* control bar — matches the comic/epub viewers */
+.files-viewers-muse-bar[data-v-1098cbc6] {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	height: 36px;
+	padding: 0 8px;
+	background: var(--color-main-background, #fff);
+	border-top: 1px solid var(--color-border, #e1e4e8);
+	color: var(--color-main-text, #222);
+}
+.files-viewers-muse-ico[data-v-1098cbc6] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 28px;
+	font-size: 18px;
+	line-height: 1;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--color-main-text, #222) !important;
+	cursor: pointer;
+}
+.files-viewers-muse-ico[data-v-1098cbc6]:hover {
+	background: var(--color-background-hover, #ececec);
+}
+.files-viewers-muse-ico[data-v-1098cbc6]:disabled {
+	opacity: 0.35;
+	cursor: default;
+	background: transparent;
+}
+.files-viewers-muse-ico[data-v-1098cbc6]:focus,
+.files-viewers-muse-ico[data-v-1098cbc6]:focus-visible,
+.files-viewers-muse-ico[data-v-1098cbc6]:active {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+.files-viewers-muse-loc[data-v-1098cbc6] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 56px;
+	height: 28px;
+	padding: 0 10px;
+	font-size: 13px;
+	color: var(--color-text-maxcontrast, #767676);
+}
+.files-viewers-msg[data-v-1098cbc6] {
+	padding: 24px 16px;
+	color: var(--color-error-text, #8a0000);
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ ]);
+
+
+/***/ },
+
 /***/ 6314
 (module) {
 
@@ -25325,6 +25445,22 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
 var update = add("2b0cf723", content, true, {});
+
+/***/ },
+
+/***/ 8328
+(module, __unused_webpack_exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(5049);
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = (__webpack_require__(534)/* ["default"] */ .A)
+var update = add("78ee5eeb", content, true, {});
 
 /***/ },
 
@@ -67912,6 +68048,117 @@ var ComicViewer_component = normalizeComponent(
 )
 
 /* harmony default export */ const ComicViewer = (ComicViewer_component.exports);
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/MuseScoreViewer.vue?vue&type=template&id=1098cbc6&scoped=true
+var MuseScoreViewervue_type_template_id_1098cbc6_scoped_true_render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-muse"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"stage",staticClass:"files-viewers-muse-stage",class:'fit-' + _vm.fitMode},[(_vm.pageUrl)?_c('img',{staticClass:"files-viewers-muse-img",style:(_vm.zoomStyle),attrs:{"src":_vm.pageUrl,"alt":_vm.filename || 'Score'}}):_vm._e()]),_vm._v(" "),(!_vm.error && _vm.pageUrl)?_c('div',{staticClass:"files-viewers-muse-bar"},[_c('button',{staticClass:"files-viewers-muse-ico",attrs:{"title":"Zoom out","disabled":_vm.zoom <= 0.25},on:{"click":_vm.zoomOut}},[_vm._v("−")]),_vm._v(" "),_c('span',{staticClass:"files-viewers-muse-loc"},[_vm._v(_vm._s(Math.round(_vm.zoom * 100) + '%'))]),_vm._v(" "),_c('button',{staticClass:"files-viewers-muse-ico",attrs:{"title":"Zoom in","disabled":_vm.zoom >= 6},on:{"click":_vm.zoomIn}},[_vm._v("+")]),_vm._v(" "),_c('button',{staticClass:"files-viewers-muse-ico",attrs:{"title":_vm.fitMode === 'height' ? 'Fit width (scroll)' : 'Fit whole page'},on:{"click":_vm.toggleFit}},[_vm._v("⤢")])]):_vm._e()])
+}
+var MuseScoreViewervue_type_template_id_1098cbc6_scoped_true_staticRenderFns = []
+
+
+;// ./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/MuseScoreViewer.vue?vue&type=script&lang=js
+
+
+
+// A MuseScore file (.mscz) is a ZIP whose native score body is MuseScore's own
+// XML (.mscx) — there is no pure-JS engraver for that, so we can't re-render the
+// score client-side. But MuseScore embeds a rendered PNG preview of the first
+// page (Thumbnails/thumbnail.png), which we extract and show. Full multi-page
+// engraving would need MuseScore's CLI server-side; this is the self-contained,
+// CSP-clean client-side preview. Same JSZip path as the CBZ comic viewer.
+function pickThumbnail(zip) {
+	const pngs = []
+	zip.forEach((path, file) => {
+		if (!file.dir && /\.png$/i.test(path)) { pngs.push({ path: path.toLowerCase(), file }) }
+	})
+	if (!pngs.length) { return null }
+	// Prefer the canonical Thumbnails/thumbnail.png, then any PNG under a
+	// thumbnails folder, then any PNG at all.
+	return (pngs.find((e) => /(^|\/)thumbnail\.png$/.test(e.path))
+		|| pngs.find((e) => e.path.includes('thumbnail'))
+		|| pngs[0]).file
+}
+
+/* harmony default export */ const MuseScoreViewervue_type_script_lang_js = ({
+	name: 'MuseScoreViewer',
+
+	data() {
+		return { error: '', pageUrl: '', fitMode: 'height', zoom: 1 }
+	},
+
+	computed: {
+		src() {
+			return this.source ?? this.davPath
+		},
+		zoomStyle() {
+			// Only apply an explicit scale once the user zooms; at 1× let the
+			// fit-mode CSS size the image so it fills the stage cleanly.
+			return this.zoom === 1 ? {} : { transform: 'scale(' + this.zoom + ')', transformOrigin: 'center top' }
+		},
+	},
+
+	async mounted() {
+		try {
+			const res = await fetch(this.src)
+			if (!res.ok) { throw new Error('HTTP ' + res.status) }
+			const buf = await res.arrayBuffer()
+
+			const zip = await jszip_min_default().loadAsync(buf)
+			const thumb = pickThumbnail(zip)
+			if (!thumb) {
+				throw new Error('This MuseScore file has no embedded preview image (it was saved without preview images). In-browser rendering shows the embedded preview only.')
+			}
+			const data = await thumb.async('uint8array')
+			if (this._gone) { return } // viewer closed during extraction
+			this._url = URL.createObjectURL(new Blob([data], { type: 'image/png' }))
+			this.pageUrl = this._url
+		} catch (e) {
+			this.error = 'Could not open score: ' + (e && e.message ? e.message : e)
+		} finally {
+			this.doneLoading()
+		}
+	},
+
+	beforeDestroy() {
+		this._gone = true
+		if (this._url) { try { URL.revokeObjectURL(this._url) } catch (e) { /* noop */ } }
+	},
+
+	methods: {
+		zoomIn() { this.zoom = Math.min(6, Math.round((this.zoom + 0.25) * 100) / 100) },
+		zoomOut() { this.zoom = Math.max(0.25, Math.round((this.zoom - 0.25) * 100) / 100) },
+		toggleFit() {
+			this.fitMode = this.fitMode === 'height' ? 'width' : 'height'
+			this.zoom = 1
+		},
+	},
+});
+
+;// ./src/views/MuseScoreViewer.vue?vue&type=script&lang=js
+ /* harmony default export */ const views_MuseScoreViewervue_type_script_lang_js = (MuseScoreViewervue_type_script_lang_js); 
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/MuseScoreViewer.vue?vue&type=style&index=0&id=1098cbc6&prod&scoped=true&lang=css
+var MuseScoreViewervue_type_style_index_0_id_1098cbc6_prod_scoped_true_lang_css = __webpack_require__(8328);
+;// ./src/views/MuseScoreViewer.vue?vue&type=style&index=0&id=1098cbc6&prod&scoped=true&lang=css
+
+;// ./src/views/MuseScoreViewer.vue
+
+
+
+;
+
+
+/* normalize component */
+
+var MuseScoreViewer_component = normalizeComponent(
+  views_MuseScoreViewervue_type_script_lang_js,
+  MuseScoreViewervue_type_template_id_1098cbc6_scoped_true_render,
+  MuseScoreViewervue_type_template_id_1098cbc6_scoped_true_staticRenderFns,
+  false,
+  null,
+  "1098cbc6",
+  null
+  
+)
+
+/* harmony default export */ const MuseScoreViewer = (MuseScoreViewer_component.exports);
 ;// ./src/main.js
 /**
  * files_viewers — registers document-viewer handlers with the core Viewer app.
@@ -67920,6 +68167,7 @@ var ComicViewer_component = normalizeComponent(
  * object passed to registerHandler). We push there if the Viewer isn't up yet,
  * or register directly if it already is — covering both script-load orders.
  */
+
 
 
 
@@ -67947,6 +68195,16 @@ const handlers = [
 		group: 'documents',
 		mimes: ['application/comicbook+zip', 'application/comicbook+rar'],
 		component: ComicViewer,
+		theme: 'default',
+	},
+	{
+		// MuseScore scores (.mscz). Shows the score's embedded first-page preview
+		// (extracted client-side via JSZip); the native .mscx body can't be
+		// engraved in-browser. For the conservatories.
+		id: 'files_viewers-musescore',
+		group: 'documents',
+		mimes: ['application/x-musescore'],
+		component: MuseScoreViewer,
 		theme: 'default',
 	},
 ]

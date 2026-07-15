@@ -8,6 +8,7 @@
 import IpynbViewer from './views/IpynbViewer.vue'
 import EpubViewer from './views/EpubViewer.vue'
 import ComicViewer from './views/ComicViewer.vue'
+import MuseScoreViewer from './views/MuseScoreViewer.vue'
 
 const handlers = [
 	{
@@ -32,6 +33,16 @@ const handlers = [
 		group: 'documents',
 		mimes: ['application/comicbook+zip', 'application/comicbook+rar'],
 		component: ComicViewer,
+		theme: 'default',
+	},
+	{
+		// MuseScore scores (.mscz). Shows the score's embedded first-page preview
+		// (extracted client-side via JSZip); the native .mscx body can't be
+		// engraved in-browser. For the conservatories.
+		id: 'files_viewers-musescore',
+		group: 'documents',
+		mimes: ['application/x-musescore'],
+		component: MuseScoreViewer,
 		theme: 'default',
 	},
 ]

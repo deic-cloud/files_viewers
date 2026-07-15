@@ -8,6 +8,7 @@ use OCA\FilesViewers\Listener\LoadViewerListener;
 use OCA\FilesViewers\Preview\ComicPreviewProvider;
 use OCA\FilesViewers\Preview\EpubPreviewProvider;
 use OCA\FilesViewers\Preview\IpynbPreviewProvider;
+use OCA\FilesViewers\Preview\MuseScorePreviewProvider;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -36,6 +37,9 @@ class Application extends App implements IBootstrap {
 		$context->registerPreviewProvider(IpynbPreviewProvider::class, '/application\/x-ipynb\+json/');
 		$context->registerPreviewProvider(EpubPreviewProvider::class, '/application\/epub\+zip/');
 		$context->registerPreviewProvider(ComicPreviewProvider::class, '/application\/comicbook\+(zip|rar)/');
+		// .mscz previews show the score's own embedded first-page thumbnail
+		// (extracted from the zip), falling back to a generic icon if absent.
+		$context->registerPreviewProvider(MuseScorePreviewProvider::class, '/application\/x-musescore/');
 	}
 
 	public function boot(IBootContext $context): void {
@@ -59,6 +63,7 @@ class Application extends App implements IBootstrap {
 					$detector->getAllMappings();
 				}
 				$detector->registerType('ipynb', 'application/x-ipynb+json');
+				$detector->registerType('mscz', 'application/x-musescore');
 				// .epub / .cbr / .cbz are already in NC's default mapping.
 			}
 		} catch (\Throwable $e) {
