@@ -5641,7 +5641,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 7315
+/***/ 1557
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5656,7 +5656,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-ipynb[data-v-7f93a40f] {
+.files-viewers-ipynb[data-v-3c75173c] {
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -5664,7 +5664,16 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	padding: 24px 16px;
 	overflow: auto;
 }
-.files-viewers-msg[data-v-7f93a40f] {
+.files-viewers-nb-actions[data-v-3c75173c] {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	display: flex;
+	justify-content: flex-end;
+	max-width: 980px;
+	margin: 0 auto 8px;
+}
+.files-viewers-msg[data-v-3c75173c] {
 	max-width: 980px;
 	margin: 0 auto;
 	color: var(--color-error-text, #8a0000);
@@ -5680,7 +5689,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 6771
+/***/ 3789
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25416,35 +25425,35 @@ var update = add("a18b254a", content, true, {});
 
 /***/ },
 
-/***/ 8742
+/***/ 7756
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(7315);
+var content = __webpack_require__(1557);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("3fa42c2d", content, true, {});
+var update = add("48cad802", content, true, {});
 
 /***/ },
 
-/***/ 5222
+/***/ 7060
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(6771);
+var content = __webpack_require__(3789);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("2b0cf723", content, true, {});
+var update = add("421309f5", content, true, {});
 
 /***/ },
 
@@ -44933,8 +44942,8 @@ __webpack_require__.d(core_namespaceObject, {
   windowBounds: () => (windowBounds)
 });
 
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=7f93a40f&scoped=true
-var render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-ipynb"},[(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"nb",staticClass:"files-viewers-nb"})])
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=3c75173c&scoped=true
+var render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-ipynb"},[(_vm.launchUrl)?_c('div',{staticClass:"files-viewers-nb-actions"},[_c('a',{staticClass:"button primary",attrs:{"href":_vm.launchUrl}},[_vm._v(_vm._s(_vm.openLabel))])]):_vm._e(),_vm._v(" "),(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"nb",staticClass:"files-viewers-nb"})])
 }
 var staticRenderFns = []
 
@@ -49713,16 +49722,32 @@ function neutralizeExternalImages(html) {
 	return text
 }
 
+// The Containers app's address, when the user has it (see LoadViewerListener).
+function notebookLauncher() {
+	const el = document.getElementById('initial-state-files_viewers-notebook_launcher')
+	if (!el) {
+		return ''
+	}
+	try {
+		return JSON.parse(atob(el.value)) || ''
+	} catch (e) {
+		return ''
+	}
+}
+
 /* harmony default export */ const IpynbViewervue_type_script_lang_js = ({
 	name: 'IpynbViewer',
 
 	data() {
-		return { error: '' }
+		return { error: '', launchUrl: '' }
 	},
 
 	computed: {
 		src() {
 			return this.source ?? this.davPath
+		},
+		openLabel() {
+			return window.t ? window.t('files_viewers', 'Open in Jupyter') : 'Open in Jupyter'
 		},
 	},
 
@@ -49733,6 +49758,13 @@ function neutralizeExternalImages(html) {
 				throw new Error('HTTP ' + res.status)
 			}
 			const json = JSON.parse(await res.text())
+			// Offer to run it: the Containers app starts a notebook server with a
+			// kernel for it (it knows which image has which kernels).
+			const launcher = notebookLauncher()
+			if (launcher && this.filename) {
+				const kernel = (json.metadata && json.metadata.kernelspec && json.metadata.kernelspec.name) || ''
+				this.launchUrl = launcher + '?notebook=' + encodeURIComponent(this.filename) + '&kernel=' + encodeURIComponent(kernel)
+			}
 			const rendered = notebook_default().parse(json).render()
 			// External images are already turned into links upstream (nb.markdown /
 			// nb.sanitizer), so nothing cross-origin is fetched. DOMPurify still runs
@@ -49749,13 +49781,13 @@ function neutralizeExternalImages(html) {
 
 ;// ./src/views/IpynbViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_IpynbViewervue_type_script_lang_js = (IpynbViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=7f93a40f&prod&scoped=true&lang=css
-var IpynbViewervue_type_style_index_0_id_7f93a40f_prod_scoped_true_lang_css = __webpack_require__(8742);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=7f93a40f&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=3c75173c&prod&scoped=true&lang=css
+var IpynbViewervue_type_style_index_0_id_3c75173c_prod_scoped_true_lang_css = __webpack_require__(7756);
+;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=3c75173c&prod&scoped=true&lang=css
 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=1&id=7f93a40f&prod&lang=css
-var IpynbViewervue_type_style_index_1_id_7f93a40f_prod_lang_css = __webpack_require__(5222);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=1&id=7f93a40f&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=1&id=3c75173c&prod&lang=css
+var IpynbViewervue_type_style_index_1_id_3c75173c_prod_lang_css = __webpack_require__(7060);
+;// ./src/views/IpynbViewer.vue?vue&type=style&index=1&id=3c75173c&prod&lang=css
 
 ;// ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -49871,7 +49903,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "7f93a40f",
+  "3c75173c",
   null
   
 )
