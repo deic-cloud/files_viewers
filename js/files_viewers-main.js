@@ -5641,7 +5641,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 1557
+/***/ 2073
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5656,7 +5656,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-ipynb[data-v-3c75173c] {
+.files-viewers-ipynb[data-v-6054af22] {
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -5664,7 +5664,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	padding: 24px 16px;
 	overflow: auto;
 }
-.files-viewers-nb-actions[data-v-3c75173c] {
+.files-viewers-nb-actions[data-v-6054af22] {
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -5673,7 +5673,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	max-width: 980px;
 	margin: 0 auto 8px;
 }
-.files-viewers-msg[data-v-3c75173c] {
+.files-viewers-msg[data-v-6054af22] {
 	max-width: 980px;
 	margin: 0 auto;
 	color: var(--color-error-text, #8a0000);
@@ -5689,7 +5689,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 3789
+/***/ 4565
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5774,6 +5774,70 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	color: #999;
 	font-family: monospace;
 	font-size: 12px;
+}
+
+/* Markdown cells: NC core resets headings, lists, links and em to body text,
+   so a notebook's title read as an ordinary line. Restore document typography. */
+.files-viewers-nb .nb-markdown-cell h1,
+.files-viewers-nb .nb-markdown-cell h2,
+.files-viewers-nb .nb-markdown-cell h3,
+.files-viewers-nb .nb-markdown-cell h4 {
+	color: #1a1a1a;
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 1em 0 0.5em;
+}
+.files-viewers-nb .nb-markdown-cell h1 {
+	font-size: 1.75em;
+}
+.files-viewers-nb .nb-markdown-cell h2 {
+	font-size: 1.4em;
+}
+.files-viewers-nb .nb-markdown-cell h3 {
+	font-size: 1.2em;
+}
+.files-viewers-nb .nb-markdown-cell h4 {
+	font-size: 1.05em;
+}
+.files-viewers-nb .nb-markdown-cell > :first-child {
+	margin-top: 0;
+}
+.files-viewers-nb .nb-markdown-cell p {
+	margin: 0 0 0.75em;
+}
+.files-viewers-nb .nb-markdown-cell ul,
+.files-viewers-nb .nb-markdown-cell ol {
+	margin: 0 0 0.75em;
+	padding-left: 1.6em;
+}
+.files-viewers-nb .nb-markdown-cell ul li {
+	list-style: disc;
+}
+.files-viewers-nb .nb-markdown-cell ol li {
+	list-style: decimal;
+}
+.files-viewers-nb .nb-markdown-cell a {
+	color: #0b5cad;
+	text-decoration: underline;
+}
+.files-viewers-nb .nb-markdown-cell em {
+	color: inherit;
+	font-style: italic;
+	opacity: 1;
+}
+.files-viewers-nb .nb-markdown-cell strong {
+	font-weight: 600;
+}
+.files-viewers-nb .nb-markdown-cell code {
+	background: #f0f2f4;
+	border-radius: 3px;
+	padding: 0 0.3em;
+}
+.files-viewers-nb .nb-markdown-cell blockquote {
+	border-left: 3px solid #d0d7de;
+	color: #555;
+	margin: 0 0 0.75em;
+	padding-left: 1em;
 }
 `, ""]);
 // Exports
@@ -25425,35 +25489,35 @@ var update = add("a18b254a", content, true, {});
 
 /***/ },
 
-/***/ 7756
+/***/ 3972
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1557);
+var content = __webpack_require__(2073);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("48cad802", content, true, {});
+var update = add("7b302159", content, true, {});
 
 /***/ },
 
-/***/ 7060
+/***/ 2952
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(3789);
+var content = __webpack_require__(4565);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("421309f5", content, true, {});
+var update = add("525e4e4f", content, true, {});
 
 /***/ },
 
@@ -44942,7 +45006,7 @@ __webpack_require__.d(core_namespaceObject, {
   windowBounds: () => (windowBounds)
 });
 
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=3c75173c&scoped=true
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=6054af22&scoped=true
 var render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-ipynb"},[(_vm.launchUrl)?_c('div',{staticClass:"files-viewers-nb-actions"},[_c('a',{staticClass:"button primary",attrs:{"href":_vm.launchUrl}},[_vm._v(_vm._s(_vm.openLabel))])]):_vm._e(),_vm._v(" "),(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"nb",staticClass:"files-viewers-nb"})])
 }
 var staticRenderFns = []
@@ -49704,12 +49768,20 @@ function neutralizeExternalImages(html) {
 // images are turned into links before anything can be fetched.
 (notebook_default()).markdown = (md) => neutralizeExternalImages(marked.parse(md || ''))
 ;(notebook_default()).sanitizer = (html) => neutralizeExternalImages(html)
+// notebookjs hands over text it has already escaped (< and > only), and also
+// calls this for plain-text outputs (no <code> element). Only code cells are
+// highlighted, and hljs gets the raw source back, or it escapes a second time
+// ("-&gt;" on screen).
 ;(notebook_default()).highlighter = (text, pre, code, lang) => {
+	if (!code) {
+		return text
+	}
+	const raw = text.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 	let html = null
 	try {
 		html = (lang && es_common.getLanguage(lang))
-			? es_common.highlight(text, { language: lang, ignoreIllegals: true }).value
-			: es_common.highlightAuto(text).value
+			? es_common.highlight(raw, { language: lang, ignoreIllegals: true }).value
+			: es_common.highlightAuto(raw).value
 	} catch (e) {
 		html = null
 	}
@@ -49781,13 +49853,13 @@ function notebookLauncher() {
 
 ;// ./src/views/IpynbViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_IpynbViewervue_type_script_lang_js = (IpynbViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=3c75173c&prod&scoped=true&lang=css
-var IpynbViewervue_type_style_index_0_id_3c75173c_prod_scoped_true_lang_css = __webpack_require__(7756);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=3c75173c&prod&scoped=true&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=6054af22&prod&scoped=true&lang=css
+var IpynbViewervue_type_style_index_0_id_6054af22_prod_scoped_true_lang_css = __webpack_require__(3972);
+;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=6054af22&prod&scoped=true&lang=css
 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=1&id=3c75173c&prod&lang=css
-var IpynbViewervue_type_style_index_1_id_3c75173c_prod_lang_css = __webpack_require__(7060);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=1&id=3c75173c&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=1&id=6054af22&prod&lang=css
+var IpynbViewervue_type_style_index_1_id_6054af22_prod_lang_css = __webpack_require__(2952);
+;// ./src/views/IpynbViewer.vue?vue&type=style&index=1&id=6054af22&prod&lang=css
 
 ;// ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -49903,7 +49975,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "3c75173c",
+  "6054af22",
   null
   
 )

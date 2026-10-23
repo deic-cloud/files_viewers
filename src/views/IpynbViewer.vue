@@ -65,12 +65,20 @@ function neutralizeExternalImages(html) {
 // images are turned into links before anything can be fetched.
 nb.markdown = (md) => neutralizeExternalImages(marked.parse(md || ''))
 nb.sanitizer = (html) => neutralizeExternalImages(html)
+// notebookjs hands over text it has already escaped (< and > only), and also
+// calls this for plain-text outputs (no <code> element). Only code cells are
+// highlighted, and hljs gets the raw source back, or it escapes a second time
+// ("-&gt;" on screen).
 nb.highlighter = (text, pre, code, lang) => {
+	if (!code) {
+		return text
+	}
+	const raw = text.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 	let html = null
 	try {
 		html = (lang && hljs.getLanguage(lang))
-			? hljs.highlight(text, { language: lang, ignoreIllegals: true }).value
-			: hljs.highlightAuto(text).value
+			? hljs.highlight(raw, { language: lang, ignoreIllegals: true }).value
+			: hljs.highlightAuto(raw).value
 	} catch (e) {
 		html = null
 	}
@@ -249,5 +257,83 @@ export default {
 	color: #999;
 	font-family: monospace;
 	font-size: 12px;
+}
+
+/* Markdown cells: NC core resets headings, lists, links and em to body text,
+   so a notebook's title read as an ordinary line. Restore document typography. */
+.files-viewers-nb .nb-markdown-cell h1,
+.files-viewers-nb .nb-markdown-cell h2,
+.files-viewers-nb .nb-markdown-cell h3,
+.files-viewers-nb .nb-markdown-cell h4 {
+	color: #1a1a1a;
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 1em 0 0.5em;
+}
+
+.files-viewers-nb .nb-markdown-cell h1 {
+	font-size: 1.75em;
+}
+
+.files-viewers-nb .nb-markdown-cell h2 {
+	font-size: 1.4em;
+}
+
+.files-viewers-nb .nb-markdown-cell h3 {
+	font-size: 1.2em;
+}
+
+.files-viewers-nb .nb-markdown-cell h4 {
+	font-size: 1.05em;
+}
+
+.files-viewers-nb .nb-markdown-cell > :first-child {
+	margin-top: 0;
+}
+
+.files-viewers-nb .nb-markdown-cell p {
+	margin: 0 0 0.75em;
+}
+
+.files-viewers-nb .nb-markdown-cell ul,
+.files-viewers-nb .nb-markdown-cell ol {
+	margin: 0 0 0.75em;
+	padding-left: 1.6em;
+}
+
+.files-viewers-nb .nb-markdown-cell ul li {
+	list-style: disc;
+}
+
+.files-viewers-nb .nb-markdown-cell ol li {
+	list-style: decimal;
+}
+
+.files-viewers-nb .nb-markdown-cell a {
+	color: #0b5cad;
+	text-decoration: underline;
+}
+
+.files-viewers-nb .nb-markdown-cell em {
+	color: inherit;
+	font-style: italic;
+	opacity: 1;
+}
+
+.files-viewers-nb .nb-markdown-cell strong {
+	font-weight: 600;
+}
+
+.files-viewers-nb .nb-markdown-cell code {
+	background: #f0f2f4;
+	border-radius: 3px;
+	padding: 0 0.3em;
+}
+
+.files-viewers-nb .nb-markdown-cell blockquote {
+	border-left: 3px solid #d0d7de;
+	color: #555;
+	margin: 0 0 0.75em;
+	padding-left: 1em;
 }
 </style>
