@@ -6,6 +6,22 @@ import { renderNotebook } from './notebook-render.js'
 import './notebook-page.css'
 
 const root = document.getElementById('files-viewers-notebook-page')
+
+// Back: to the page the visitor came from on this site (e.g. a catalogue entry);
+// otherwise the link's own target, the share's page
+const back = document.querySelector('.files-viewers-back')
+if (back && document.referrer && window.history.length > 1) {
+	try {
+		if (new URL(document.referrer).origin === window.location.origin) {
+			back.addEventListener('click', (e) => {
+				e.preventDefault()
+				window.history.back()
+			})
+		}
+	} catch (e) {
+		// unparsable referrer: keep the link
+	}
+}
 if (root && root.dataset.src) {
 	const out = root.querySelector('.files-viewers-nb')
 	const msg = root.querySelector('.files-viewers-msg')

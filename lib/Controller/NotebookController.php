@@ -69,6 +69,8 @@ class NotebookController extends Controller {
 			// root-relative: same origin as the page, whatever host it was reached by
 			'src' => $this->urlGenerator->getWebroot() . $dav,
 			'run' => $run,
+			// Back: where the visitor came from (same site), else the share's own page
+			'share_page' => $ok ? $this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', ['token' => $token]) : '',
 			'embed' => $embed === '1',
 			'msg_protected' => $this->l->t('This notebook is protected: open its share link to enter the password.'),
 			'msg_missing' => $this->l->t('The notebook could not be loaded: the link may have expired or been removed.'),

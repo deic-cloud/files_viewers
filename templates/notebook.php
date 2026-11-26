@@ -8,6 +8,9 @@
 	data-msg-missing="<?php p($_['msg_missing']); ?>">
 	<?php if (!$_['embed']): ?>
 	<div class="files-viewers-page-head">
+		<?php if ($_['share_page'] !== ''): ?>
+		<a class="button files-viewers-back" href="<?php p($_['share_page']); ?>">&larr; <?php p($l->t('Back')); ?></a>
+		<?php endif; ?>
 		<div class="files-viewers-page-actions">
 			<?php if ($_['run'] !== ''): ?>
 			<a class="button primary" href="<?php p($_['run']); ?>"><?php p($l->t('Run this notebook')); ?></a>

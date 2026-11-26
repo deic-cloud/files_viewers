@@ -185,8 +185,16 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* The public notebook page (templates
 }
 
 .files-viewers-page-head {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
 	max-width: 980px;
 	margin: 0 auto 12px;
+}
+
+.files-viewers-page-head .files-viewers-page-actions {
+	margin-inline-start: auto;
 }
 
 .files-viewers-page-actions {
@@ -27434,6 +27442,22 @@ var notebook_page = __webpack_require__(6293);
 
 
 const root = document.getElementById('files-viewers-notebook-page')
+
+// Back: to the page the visitor came from on this site (e.g. a catalogue entry);
+// otherwise the link's own target, the share's page
+const back = document.querySelector('.files-viewers-back')
+if (back && document.referrer && window.history.length > 1) {
+	try {
+		if (new URL(document.referrer).origin === window.location.origin) {
+			back.addEventListener('click', (e) => {
+				e.preventDefault()
+				window.history.back()
+			})
+		}
+	} catch (e) {
+		// unparsable referrer: keep the link
+	}
+}
 if (root && root.dataset.src) {
 	const out = root.querySelector('.files-viewers-nb')
 	const msg = root.querySelector('.files-viewers-msg')

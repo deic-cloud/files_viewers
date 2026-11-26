@@ -26,8 +26,16 @@
 }
 
 .files-viewers-page-head {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
 	max-width: 980px;
 	margin: 0 auto 12px;
+}
+
+.files-viewers-page-head .files-viewers-page-actions {
+	margin-inline-start: auto;
 }
 
 .files-viewers-page-actions {
