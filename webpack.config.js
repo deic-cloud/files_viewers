@@ -10,6 +10,7 @@ module.exports = (env, argv) => {
 		devtool: isDev ? 'cheap-source-map' : false,
 		entry: {
 			'files_viewers-main': path.join(__dirname, 'src', 'main.js'),
+			'files_viewers-notebook': path.join(__dirname, 'src', 'notebook-page.js'),
 		},
 		output: {
 			path: path.join(__dirname, 'js'),

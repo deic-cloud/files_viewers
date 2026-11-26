@@ -1,0 +1,54 @@
+/* The public notebook page (templates/notebook.php) */
+/* The same white, rounded content area as the public share page's file list */
+.files-viewers-page {
+	box-sizing: border-box;
+	min-height: calc(100vh - var(--header-height, 50px) - 2 * var(--body-container-margin, 8px));
+	flex: 1 1 auto;
+	width: 100%;
+	margin: 0 var(--body-container-margin, 8px) var(--body-container-margin, 8px);
+	/* room below for the public page's floating footer */
+	padding: 16px 16px 96px;
+	background: var(--color-main-background, #fff);
+	border-radius: var(--body-container-radius, 12px);
+	overflow: auto;
+}
+
+/* embed=1, in another site's frame: the whole frame, scrolling, white */
+.files-viewers-page.embed {
+	position: fixed;
+	inset: 0;
+	z-index: 10;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+	background: #fff;
+}
+
+.files-viewers-page-head {
+	max-width: 980px;
+	margin: 0 auto 12px;
+}
+
+.files-viewers-page-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: flex-end;
+}
+
+.files-viewers-page .files-viewers-msg {
+	max-width: 980px;
+	margin: 24px auto;
+	color: var(--color-error-text, #8a0000);
+}
+
+.files-viewers-page .files-viewers-loading {
+	height: 48px;
+	margin: 24px auto;
+}
+
+.files-viewers-page.embed .files-viewers-nb {
+	max-width: none;
+	border-radius: 0;
+}

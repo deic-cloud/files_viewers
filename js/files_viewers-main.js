@@ -5641,7 +5641,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 
 /***/ },
 
-/***/ 2073
+/***/ 3811
 (module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5656,7 +5656,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `
-.files-viewers-ipynb[data-v-6054af22] {
+.files-viewers-ipynb[data-v-593b1ffd] {
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -5664,7 +5664,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	padding: 24px 16px;
 	overflow: auto;
 }
-.files-viewers-nb-actions[data-v-6054af22] {
+.files-viewers-nb-actions[data-v-593b1ffd] {
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -5673,171 +5673,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 	max-width: 980px;
 	margin: 0 auto 8px;
 }
-.files-viewers-msg[data-v-6054af22] {
+.files-viewers-msg[data-v-593b1ffd] {
 	max-width: 980px;
 	margin: 0 auto;
 	color: var(--color-error-text, #8a0000);
-}
-`, ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 4565
-(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1601);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `
-/* Rendered notebook. NOT scoped (inserted via innerHTML) but kept under
-   .files-viewers-nb so it can't leak. Rendered as a light "paper" page so it
-   reads consistently regardless of the NC theme (matches the github code theme). */
-.files-viewers-nb {
-	max-width: 980px;
-	margin: 0 auto;
-	padding: 24px 28px;
-	background: #fff;
-	color: #1a1a1a;
-	border-radius: 8px;
-	line-height: 1.5;
-}
-.files-viewers-nb .nb-cell {
-	margin-bottom: 14px;
-}
-.files-viewers-nb pre,
-.files-viewers-nb code {
-	font-family: monospace;
-}
-.files-viewers-nb .nb-input,
-.files-viewers-nb .nb-output {
-	padding: 8px 12px;
-	border-radius: 4px;
-	overflow-x: auto;
-}
-.files-viewers-nb .nb-input {
-	background: #f6f8fa;
-	border: 1px solid #e1e4e8;
-}
-.files-viewers-nb .nb-stderr,
-.files-viewers-nb .nb-error {
-	background: #ffecec;
-	color: #8a0000;
-	white-space: pre-wrap;
-}
-.files-viewers-nb .nb-stdout,
-.files-viewers-nb .nb-text-output {
-	white-space: pre-wrap;
-}
-.files-viewers-nb img,
-.files-viewers-nb svg {
-	max-width: 100%;
-	height: auto;
-}
-
-/* placeholder shown in place of a CSP-blocked external image */
-.files-viewers-nb .files-viewers-extimg {
-	display: inline-block;
-	margin: 2px 0;
-	padding: 2px 8px;
-	border: 1px dashed #c8ccd0;
-	border-radius: 4px;
-	color: #0b5cad;
-	font-size: 13px;
-	text-decoration: none;
-	word-break: break-all;
-}
-.files-viewers-nb table {
-	border-collapse: collapse;
-	margin: 4px 0;
-}
-.files-viewers-nb th,
-.files-viewers-nb td {
-	border: 1px solid #e1e4e8;
-	padding: 2px 8px;
-}
-.files-viewers-nb .nb-prompt {
-	color: #999;
-	font-family: monospace;
-	font-size: 12px;
-}
-
-/* Markdown cells: NC core resets headings, lists, links and em to body text,
-   so a notebook's title read as an ordinary line. Restore document typography. */
-.files-viewers-nb .nb-markdown-cell h1,
-.files-viewers-nb .nb-markdown-cell h2,
-.files-viewers-nb .nb-markdown-cell h3,
-.files-viewers-nb .nb-markdown-cell h4 {
-	color: #1a1a1a;
-	font-weight: 600;
-	line-height: 1.25;
-	margin: 1em 0 0.5em;
-}
-.files-viewers-nb .nb-markdown-cell h1 {
-	font-size: 1.75em;
-}
-.files-viewers-nb .nb-markdown-cell h2 {
-	font-size: 1.4em;
-}
-.files-viewers-nb .nb-markdown-cell h3 {
-	font-size: 1.2em;
-}
-.files-viewers-nb .nb-markdown-cell h4 {
-	font-size: 1.05em;
-}
-.files-viewers-nb .nb-markdown-cell > :first-child {
-	margin-top: 0;
-}
-.files-viewers-nb .nb-markdown-cell p {
-	margin: 0 0 0.75em;
-}
-.files-viewers-nb .nb-markdown-cell ul,
-.files-viewers-nb .nb-markdown-cell ol {
-	margin: 0 0 0.75em;
-	padding-left: 1.6em;
-}
-.files-viewers-nb .nb-markdown-cell ul li {
-	list-style: disc;
-}
-.files-viewers-nb .nb-markdown-cell ol li {
-	list-style: decimal;
-}
-.files-viewers-nb .nb-markdown-cell a {
-	color: #0b5cad;
-	text-decoration: underline;
-}
-.files-viewers-nb .nb-markdown-cell em {
-	color: inherit;
-	font-style: italic;
-	opacity: 1;
-}
-.files-viewers-nb .nb-markdown-cell strong {
-	font-weight: 600;
-}
-.files-viewers-nb .nb-markdown-cell code {
-	background: #f0f2f4;
-	border-radius: 3px;
-	padding: 0 0.3em;
-}
-.files-viewers-nb .nb-markdown-cell blockquote {
-	border-left: 3px solid #d0d7de;
-	color: #555;
-	margin: 0 0 0.75em;
-	padding-left: 1em;
 }
 `, ""]);
 // Exports
@@ -5958,6 +5797,190 @@ ___CSS_LOADER_EXPORT___.push([module.id, `
 .files-viewers-msg[data-v-1098cbc6] {
 	padding: 24px 16px;
 	color: var(--color-error-text, #8a0000);
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 2932
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1601);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/* Rendered notebook. NOT scoped (inserted via innerHTML) but kept under
+   .files-viewers-nb so it can't leak. Rendered as a light "paper" page so it
+   reads consistently regardless of the NC theme (matches the github code theme). */
+.files-viewers-nb {
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 24px 28px;
+	background: #fff;
+	color: #1a1a1a;
+	border-radius: 8px;
+	line-height: 1.5;
+}
+
+.files-viewers-nb .nb-cell {
+	margin-bottom: 14px;
+}
+
+.files-viewers-nb pre,
+.files-viewers-nb code {
+	font-family: monospace;
+}
+
+.files-viewers-nb .nb-input,
+.files-viewers-nb .nb-output {
+	padding: 8px 12px;
+	border-radius: 4px;
+	overflow-x: auto;
+}
+
+.files-viewers-nb .nb-input {
+	background: #f6f8fa;
+	border: 1px solid #e1e4e8;
+}
+
+.files-viewers-nb .nb-stderr,
+.files-viewers-nb .nb-error {
+	background: #ffecec;
+	color: #8a0000;
+	white-space: pre-wrap;
+}
+
+.files-viewers-nb .nb-stdout,
+.files-viewers-nb .nb-text-output {
+	white-space: pre-wrap;
+}
+
+.files-viewers-nb img,
+.files-viewers-nb svg {
+	max-width: 100%;
+	height: auto;
+}
+
+/* placeholder shown in place of a CSP-blocked external image */
+.files-viewers-nb .files-viewers-extimg {
+	display: inline-block;
+	margin: 2px 0;
+	padding: 2px 8px;
+	border: 1px dashed #c8ccd0;
+	border-radius: 4px;
+	color: #0b5cad;
+	font-size: 13px;
+	text-decoration: none;
+	word-break: break-all;
+}
+
+.files-viewers-nb table {
+	border-collapse: collapse;
+	margin: 4px 0;
+}
+
+.files-viewers-nb th,
+.files-viewers-nb td {
+	border: 1px solid #e1e4e8;
+	padding: 2px 8px;
+}
+
+.files-viewers-nb .nb-prompt {
+	color: #999;
+	font-family: monospace;
+	font-size: 12px;
+}
+
+/* Markdown cells: NC core resets headings, lists, links and em to body text,
+   so a notebook's title read as an ordinary line. Restore document typography. */
+.files-viewers-nb .nb-markdown-cell h1,
+.files-viewers-nb .nb-markdown-cell h2,
+.files-viewers-nb .nb-markdown-cell h3,
+.files-viewers-nb .nb-markdown-cell h4 {
+	color: #1a1a1a;
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 1em 0 0.5em;
+}
+
+.files-viewers-nb .nb-markdown-cell h1 {
+	font-size: 1.75em;
+}
+
+.files-viewers-nb .nb-markdown-cell h2 {
+	font-size: 1.4em;
+}
+
+.files-viewers-nb .nb-markdown-cell h3 {
+	font-size: 1.2em;
+}
+
+.files-viewers-nb .nb-markdown-cell h4 {
+	font-size: 1.05em;
+}
+
+.files-viewers-nb .nb-markdown-cell > :first-child {
+	margin-top: 0;
+}
+
+.files-viewers-nb .nb-markdown-cell p {
+	margin: 0 0 0.75em;
+}
+
+.files-viewers-nb .nb-markdown-cell ul,
+.files-viewers-nb .nb-markdown-cell ol {
+	margin: 0 0 0.75em;
+	padding-left: 1.6em;
+}
+
+.files-viewers-nb .nb-markdown-cell ul li {
+	list-style: disc;
+}
+
+.files-viewers-nb .nb-markdown-cell ol li {
+	list-style: decimal;
+}
+
+.files-viewers-nb .nb-markdown-cell a {
+	color: #0b5cad;
+	text-decoration: underline;
+}
+
+.files-viewers-nb .nb-markdown-cell em {
+	color: inherit;
+	font-style: italic;
+	opacity: 1;
+}
+
+.files-viewers-nb .nb-markdown-cell strong {
+	font-weight: 600;
+}
+
+.files-viewers-nb .nb-markdown-cell code {
+	background: #f0f2f4;
+	border-radius: 3px;
+	padding: 0 0.3em;
+}
+
+.files-viewers-nb .nb-markdown-cell blockquote {
+	border-left: 3px solid #d0d7de;
+	color: #555;
+	margin: 0 0 0.75em;
+	padding-left: 1em;
 }
 `, ""]);
 // Exports
@@ -25489,35 +25512,19 @@ var update = add("a18b254a", content, true, {});
 
 /***/ },
 
-/***/ 3972
+/***/ 8698
 (module, __unused_webpack_exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(2073);
+var content = __webpack_require__(3811);
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("7b302159", content, true, {});
-
-/***/ },
-
-/***/ 2952
-(module, __unused_webpack_exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(4565);
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.id, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = (__webpack_require__(534)/* ["default"] */ .A)
-var update = add("525e4e4f", content, true, {});
+var update = add("4455ec61", content, true, {});
 
 /***/ },
 
@@ -25534,6 +25541,22 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = (__webpack_require__(534)/* ["default"] */ .A)
 var update = add("78ee5eeb", content, true, {});
+
+/***/ },
+
+/***/ 4649
+(module, __unused_webpack_exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(2932);
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = (__webpack_require__(534)/* ["default"] */ .A)
+var update = add("de586322", content, true, {});
 
 /***/ },
 
@@ -45006,7 +45029,7 @@ __webpack_require__.d(core_namespaceObject, {
   windowBounds: () => (windowBounds)
 });
 
-;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=6054af22&scoped=true
+;// ./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=template&id=593b1ffd&scoped=true
 var render = function render(){var _vm=this,_c=_vm._self._c;return _c('div',{staticClass:"files-viewers-ipynb"},[(_vm.launchUrl)?_c('div',{staticClass:"files-viewers-nb-actions"},[_c('a',{staticClass:"button primary",attrs:{"href":_vm.launchUrl}},[_vm._v(_vm._s(_vm.openLabel))])]):_vm._e(),_vm._v(" "),(_vm.error)?_c('div',{staticClass:"files-viewers-msg"},[_vm._v(_vm._s(_vm.error))]):_vm._e(),_vm._v(" "),_c('div',{ref:"nb",staticClass:"files-viewers-nb"})])
 }
 var staticRenderFns = []
@@ -49710,7 +49733,14 @@ var purify = createDOMPurify();
 
 // EXTERNAL MODULE: ./node_modules/highlight.js/styles/github.css
 var github = __webpack_require__(8268);
-;// ./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=script&lang=js
+// EXTERNAL MODULE: ./src/notebook.css
+var src_notebook = __webpack_require__(4649);
+;// ./src/notebook-render.js
+/**
+ * Notebook rendering shared by the Viewer handler (IpynbViewer.vue) and the public
+ * notebook page (notebook-page.js): notebookjs + marked + highlight.js, sanitised
+ * with DOMPurify, external images turned into links (CSP), styles in notebook.css.
+ */
 
 
 
@@ -49794,6 +49824,19 @@ function neutralizeExternalImages(html) {
 	return text
 }
 
+/** The notebook (parsed .ipynb JSON) as sanitised HTML, for a .files-viewers-nb element. */
+function renderNotebook(json) {
+	const rendered = notebook_default().parse(json).render()
+	// External images are already turned into links upstream (nb.markdown /
+	// nb.sanitizer), so nothing cross-origin is fetched. DOMPurify still runs
+	// here to guard against XSS in cell outputs (the CSP also blocks scripts).
+	return purify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
+}
+
+;// ./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=script&lang=js
+
+
+
 // The Containers app's address, when the user has it (see LoadViewerListener).
 function notebookLauncher() {
 	const el = document.getElementById('initial-state-files_viewers-notebook_launcher')
@@ -49837,11 +49880,7 @@ function notebookLauncher() {
 				const kernel = (json.metadata && json.metadata.kernelspec && json.metadata.kernelspec.name) || ''
 				this.launchUrl = launcher + '?notebook=' + encodeURIComponent(this.filename) + '&kernel=' + encodeURIComponent(kernel)
 			}
-			const rendered = notebook_default().parse(json).render()
-			// External images are already turned into links upstream (nb.markdown /
-			// nb.sanitizer), so nothing cross-origin is fetched. DOMPurify still runs
-			// here to guard against XSS in cell outputs (the CSP also blocks scripts).
-			this.$refs.nb.innerHTML = purify.sanitize(rendered.outerHTML, { ADD_TAGS: ['style'] })
+			this.$refs.nb.innerHTML = renderNotebook(json)
 		} catch (e) {
 			this.error = 'Could not render notebook: ' + (e && e.message ? e.message : e)
 		} finally {
@@ -49853,13 +49892,9 @@ function notebookLauncher() {
 
 ;// ./src/views/IpynbViewer.vue?vue&type=script&lang=js
  /* harmony default export */ const views_IpynbViewervue_type_script_lang_js = (IpynbViewervue_type_script_lang_js); 
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=6054af22&prod&scoped=true&lang=css
-var IpynbViewervue_type_style_index_0_id_6054af22_prod_scoped_true_lang_css = __webpack_require__(3972);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=6054af22&prod&scoped=true&lang=css
-
-// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=1&id=6054af22&prod&lang=css
-var IpynbViewervue_type_style_index_1_id_6054af22_prod_lang_css = __webpack_require__(2952);
-;// ./src/views/IpynbViewer.vue?vue&type=style&index=1&id=6054af22&prod&lang=css
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/views/IpynbViewer.vue?vue&type=style&index=0&id=593b1ffd&prod&scoped=true&lang=css
+var IpynbViewervue_type_style_index_0_id_593b1ffd_prod_scoped_true_lang_css = __webpack_require__(8698);
+;// ./src/views/IpynbViewer.vue?vue&type=style&index=0&id=593b1ffd&prod&scoped=true&lang=css
 
 ;// ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -49966,7 +50001,6 @@ function normalizeComponent(
 ;
 
 
-
 /* normalize component */
 
 var component = normalizeComponent(
@@ -49975,7 +50009,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "6054af22",
+  "593b1ffd",
   null
   
 )
